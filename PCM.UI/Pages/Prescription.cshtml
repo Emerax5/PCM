@@ -1,0 +1,121 @@
+﻿@page
+@model PCM.UI.Pages.PrescriptionModel
+@{
+    Layout = "";
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/css/print.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" media="print" href="print.css">
+
+
+@if (Model.EntityCount > 0)
+{
+    <body>
+        <div class=" text-right mt-3 container mb-2">
+            <button id="printPageButton" onclick="window.print();return false;" href="#" class="btn btn-primary"><i class="fa fa-print mr5"></i><img src="~/Icons/print_white_24dp.svg" alt="Print" /></button>
+        </div>
+        <div class="container bootdey position-static">
+            <div class="row invoice print">
+                <div class="col-md-10">
+                    <!-- col-lg-12 start here -->
+                    <div class="panel panel-default plain" id="dash_0">
+                        <!-- Start .panel -->
+                        <div class="panel-body p30">
+                            <div class="row">
+                                <!-- Start .row -->
+                                <div class="col-lg-6">
+                                    <!-- col-lg-6 start here -->
+                                    <div class="invoice-logo"><img height="100" src="~/Images/Loader.gif" onload="this.onload=null;src='data:image/webp;base64,@Model.img';" alt="Invoice logo"></div>
+                                </div>
+                                <!-- col-lg-6 end here -->
+                                <div class="col-lg-6">
+                                    <!-- col-lg-6 start here -->
+                                    <div class="invoice-from">
+                                        <ul class="list-unstyled text-right">
+                                            <li>@Model.CurrentEntity.EntityName</li>
+                                            <li>@Model.CurrentEntity.Location</li>
+                                            <li>@Model.CurrentEntity.PhoneNumber</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- col-lg-6 end here -->
+                                <div class="col-lg-12">
+                                    <!-- col-lg-12 start here -->
+                                    <h3 class="text-center">Receta Médica</h3>
+                                    <div class="invoice-details mt25 mb-2" style="border: 3px solid #050042; border-radius:0 !important;">
+                                        <div class="well">
+                                            <ul class="list-unstyled mb0">
+                                                <li><strong>Fecha:</strong> @Model.PrescriptionDate.</li>
+                                                <li><strong>Paciente:</strong> @Model.patient.FullName.</li>
+                                                <li><strong>Identificación:</strong> @Model.patient.PersonalID.</li>
+                                                <li><strong>Edad:</strong> @Model.Age.ToString().</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>                                  
+                                    <div class="invoice-items" style="height:700px; border: 3px solid #050042; border-radius:0 !important;">
+                                        <div class="table-responsive" style="overflow: hidden; outline: none;" tabindex="0">
+                                            <table class="table table-striped table-sm">
+                                                <tbody>
+
+                                                    @foreach (var Ind in Model.Indications)
+                                                    {
+                                                        <tr>
+                                                            <td><label class="form-control-lg">@Ind.Medicine @Ind.Details</label> </td>
+                                                        </tr>
+                                                    }
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="invoice-details mt25 mt-2" style="border: 3px solid #050042; border-radius:0 !important;">
+                                        <div class="well">
+                                            <ul class="list-unstyled mb0">
+                                                <li><strong>Doctor/a:</strong> @Model.CurrentEntity.DoctorName.</li>
+                                                <li><strong>Especialidad:</strong> @Model.CurrentEntity.Specialty.</li>
+                                                <li><strong>Exequátur:</strong> @Model.CurrentEntity.Exequatur</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 mt-5">
+                                            <ul class="list-unstyled text-right">
+                                                <li>_______________________________ </li>
+                                                <li class="mr-5">Firma Médico</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- col-lg-12 end here -->
+                            </div>
+                            <!-- End .row -->
+                        </div>
+                    </div>
+                    <!-- End .panel -->
+                </div>
+                <!-- col-lg-12 end here -->
+            </div>
+        </div>
+    </body>
+
+}
+else
+{
+    <div class="container">
+
+        <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+
+            <h1 class=" text-center text-danger">Error al generar receta</h1>
+            <p class="text-center">Favor verificar informacion de la entidad o si la receta esta correcta.</p>
+        </div>
+
+    </div>
+}
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/jquery.mask.js"></script>

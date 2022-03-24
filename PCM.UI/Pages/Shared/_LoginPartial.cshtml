@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity 
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="dropdown nav-item">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="~/Icons/account_box-black-18dp.svg" /> Pacientes
+            </a>
+            <div class="dropdown-menu border-bottom" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item nav-link" asp-page="/InsertPatient">Crear paciente</a>
+                <a class="dropdown-item nav-link" asp-page="/FindPatiens">Buscar paciente</a>
+            </div>
+        </li>
+        <li class="dropdown nav-item">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/Icons/calendar_today-black-18dp.svg" /> Citas
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" asp-page="/BookAppointment">Crear citas</a>
+                <a class="dropdown-item" asp-page="/FindAppointment">Buscar citas</a>
+            </div>
+        </li>
+        
+        <li class="dropdown nav-item">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/Icons/medication_black_18dp.svg" /> Farmacos</a>
+            <div class="dropdown-menu border-bottom" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item nav-link" asp-page="/AddMedicine">Insertar Farmaco</a>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hola @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="btn btn btn-outline-danger">Cerrar sesión</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        @*<li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Crear Usuario</a>
+            </li>*@
+        <li class="nav-item">
+            <a class="btn btn-outline-success" asp-area="Identity" asp-page="/Account/Login">Iniciar sesión</a>
+        </li>
+    }
+</ul>

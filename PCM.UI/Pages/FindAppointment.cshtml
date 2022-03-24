@@ -1,0 +1,116 @@
+﻿@page
+@model PCM.UI.Pages.FindAppointmentModel
+@using Core.Patients
+@using MongoDB.Bson
+@using DTO.DTOModels
+
+@{
+
+    ViewData["Title"] = "Buscar cita";
+
+}
+
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <form method="post">
+                <label>Favor introduzca la fecha.</label>
+                <input style="width:300px" class="form-control" type="date" asp-for="@Model.Date">
+                <button type="submit" asp-route-Date="@Model.Date" class="btn btn-primary text-white mt-1"><img src="~/Icons/event-white-18dp.svg" alt="Search" /> Buscar Fecha</button>
+            </form>
+        </div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <div class="row">
+                <div class="container">
+
+                    @if (Model.AppointmentsForTheDay.Count > 0)
+                    {
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Hora</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">...</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ValidHours.Length; i++)
+                                {
+                                <tr>
+
+                                    <th scope="row">@Model.ValidHours[i]</th>
+                                    @foreach (var Apmt in Model.AppointmentsForTheDay)
+                                    {
+                                        @if (Apmt.AppointmentHour == Model.ValidHours[i])
+                                        {
+                                            @foreach (var patient in Model.Patients)
+                                            {
+                                                if (patient.Id == ObjectId.Parse(Apmt.PatientId))
+                                                {
+                                                    <td>@patient.FullName</td>
+                                                    <td>@patient.PhoneNumber</td>
+
+
+                                                    @if (Apmt.Status == Status.Scheduled || Apmt.Status == Status.Reschedule)
+                                                    {
+
+                                                        <td class="text-warning">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.Completed || Apmt.Status == Status.Confirmed)
+                                                    {
+
+                                                        <td class="text-success">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.Cancelled)
+                                                    {
+                                                        <td class="text-danger">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.NoShow)
+                                                    {
+                                                        <td>@Apmt.Status.DisplayName()</td>
+
+                                                    }
+
+                                                    <td>
+                                                        <a class="btn btn-info btn-sm" asp-page="/PatientProfile" asp-route-Id="@patient.Id"><img src="~/Icons/account_circle-white-18dp.svg" alt="Patient" /></a>
+                                                        <a class="btn btn-success btn-sm" asp-page="Appointment" asp-route-Id="@Apmt.Id"><img src="~/Icons/event-white-18dp.svg" alt="open" /></a>
+                                                    </td>
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+
+
+                                    }
+
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    }
+                    else
+                    {
+                        <div class="container text-center">
+                            <h1 class="mt-2 mb-2">No hay citas para la fecha</h1>
+
+                            <img src="~/Images/NotFound.png" alt="" height="250" />
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@page
+@model PCM.UI.Pages.PaymentConfirmationModel
+@{
+    ViewData["Title"] = "Confirmacion de pago";
+}
+
+@if (Model.payment == null)
+{
+    <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+        <h1 class=" text-center text-danger">Pago no registrado.</h1>
+
+        <h1 class=" text-center">Favor intentar nuevamente</h1>
+    </div>
+}
+else
+{
+<div class=" text-center" style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+    <h1 class=" text-center text-success">@ViewData["Title"]</h1>
+
+    <h1>Pago para cita fecha: @Model.payment.AppointmentDate.ToShortDateString()</h1>
+    <h1>Paciente: @Model.payment.PatientName</h1>
+    <h1> Total a pagar: $<strong id="money">@Model.payment.TotalPayment.ToString()</strong> DOP</h1>
+    <form action="/" method="post">
+        <a target="_blank" class="btn btn-info text-white ml-2" asp-page="/Invoice" asp-route-Id="@Model.payment.AppointmentId"><img src="~/Icons/receipt_white_18dp.svg" alt="reschedule" /> Recibo</a>
+        <a class="btn btn-primary" asp-page="/PatientProfile" asp-route-Id="@Model.payment.PatientId"><img src="~/Icons/account_circle-white-18dp.svg" alt="profile" /> Perfil Paciente</a>
+        <button onclick="return confirm('¿Está seguro? Esta acción no se puede revertir')" type="submit" class="btn btn-danger ml-5" asp-page-handler="Delete" asp-route-Id="@Model.payment.Id"><img src="~/Icons/delete-white-18dp.svg" alt="Alternate Text" /> Cancelar </button>
+
+    </form>
+
+</div>
+}

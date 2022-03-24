@@ -1,0 +1,31 @@
+﻿@page 
+@model PCM.UI.Pages.AppointmentConfirmationModel
+@using DTO.DTOModels
+@{
+    ViewData["Title"] = "Confirmacion de Cita";
+}
+
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <div class=" row">
+        <div class="col-12 text-center" style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px; margin:auto; width:480px">
+
+            @if (Model.appointment == null || Model.appointment.AppointmentDateStart == new DateTime(1, 1, 1))
+            {
+                <h1>Error al guardar</h1>
+                <p>Intente denuevo</p>
+
+            }
+            else
+            {
+                <h3>Cita programada para @Model.patient.FullName a las @Model.appointment.AppointmentHour a la fecha @Model.appointment.AppointmentDateStart.ToShortDateString()</h3>
+                <h3>Razon cita: @Model.appointment.AppoinmentReason.DisplayName()</h3>
+                <a class="btn btn-primary btn-sm" asp-page="/PatientProfile" asp-route-Id="@Model.patient.Id"><img src="~/Icons/account_circle-white-18dp.svg" alt="profile" /> Perfil Paciente</a>
+
+            }
+        </div>
+    </div>
+ </div>

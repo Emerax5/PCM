@@ -1,0 +1,12 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<div class="container">
+    <div style="background: #fff; padding: 30px; border-radius: 10px; max-width: 400px">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item text-white"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Contraseña</a></li>
+            <li class="nav-item text-white"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Eliminar cuenta</a></li>
+        </ul>
+    </div>
+</div>

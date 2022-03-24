@@ -1,0 +1,379 @@
+﻿@page
+@using PCM.DTO.DTOModels
+@model PCM.UI.Pages.MedicalHistoryModel
+@{
+
+    ViewData["Title"] = "Historial";
+
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <form method="post">
+                <label>Categoria</label>
+                <select style="margin-bottom:10px; width:auto" asp-for="@Model.Input.Type" class="form-control" asp-items="Html.GetEnumSelectList<MedicalEntryType>()">
+                </select>
+                <div class="form-group mb-2">
+                    <textarea asp-for="@Model.Input.MedicalEntry" class="form-control" rows="6" style="font-size:smaller" required></textarea>
+                </div>
+                <div class="text-center">
+                    <button asp-page-handler="Add" asp-route-Id="@Model.Patient.Id" type="submit" class="btn btn-primary text-white mt-1"><img src="~/Icons/content_paste-white-18dp.svg" alt="" /> Añadir entrada</button>
+                </div>
+            </form>
+        </div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class=" col-12 text-center mb-3">
+                            <h3 class="mb-2">Paciente: @Model.Patient.FullName</h3>
+                            <a class="btn btn-primary mb-2" asp-page="/PatientProfile" asp-route-Id="@Model.Patient.Id"><img src="~/Icons/account_circle-white-18dp.svg" alt="profile" /> Perfil Paciente</a>
+                            <a class="btn btn-info mb-2" asp-page="/Prescribe" asp-route-Id="@Model.Patient.Id"><img src="~/Icons/description_white_24dp.svg" alt="profile" /> Recetar</a>
+                            <a class="btn btn-success mb-2" asp-page="/AllPrescriptions" asp-route-Id="@Model.Patient.Id"><img src="~/Icons/description_white_24dp.svg" alt="profile" /> Todas las recetas</a>
+                        </div>
+                    </div>
+
+                    @foreach (var Date in Model.EntryDates)
+                    {
+                        @*Targeta de la fecha *@
+
+                        <div class="border-top mb-2"></div>
+                        <div style="background:#0094ff; padding: 10px; border-radius: 10px; margin-top: 5px; width:150px; margin:auto;margin-bottom:10px">
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <h4 class="text-white mb-0">@Date.ToShortDateString() </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+
+                                @foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.Symptoms && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#d7bbbb; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.Symptoms && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Signos y síntomas</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.Symptoms && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }
+
+
+                                @foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.Pathologicalhistory && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#eac7f9; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.Pathologicalhistory && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Antecedente patológico</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.Pathologicalhistory && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }
+
+
+
+                                @foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.laboratory && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#c2ffdd; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.laboratory && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Imágenes / Laboratorio</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.laboratory && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }
+                            </div>
+
+                            @*Columna derecha *@
+                            <div class="col-md-6">
+
+                                @foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.ToxicHabits && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#bbf7d6; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.ToxicHabits && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Habitos toxicos</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.ToxicHabits && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }
+
+
+
+                                @*@foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.Diagnosis && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#f5e2b1; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.Diagnosis && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Diagnostico</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.Diagnosis && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }*@
+
+
+                                @*@foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.Treatment && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#fac8c8; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.Treatment && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Tratamiento</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.Treatment && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }*@
+
+                                @foreach (var Entries in Model.PatientHistory)
+                                {
+                                    if (Entries.EntryType == MedicalEntryType.Other && Entries.EntryDate == Date)
+                                    {
+                                        <div style="background:#eeffd5; padding: 10px; border-radius: 10px; margin-top: 5px; max-width:700px; margin:auto;margin-bottom:10px">
+                                            <div>
+                                                @foreach (var Entry in Model.PatientHistory)
+                                                {
+                                                    if (Entry.EntryType == MedicalEntryType.Other && Entry.EntryDate == Date)
+                                                    {
+                                                        <p>Otros</p>
+                                                        break;
+                                                    }
+
+                                                }
+                                            </div>
+                                            @foreach (var Entry in Model.PatientHistory)
+                                            {
+                                                if (Entry.EntryType == MedicalEntryType.Other && Entry.EntryDate == Date)
+                                                {
+                                                    <form method="post">
+                                                        <p style="font-size:smaller">
+                                                            @Entry.EntryText
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                            <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                        </p>
+                                                    </form>
+
+                                                }
+                                            }
+                                        </div>
+                                        break;
+                                    }
+
+                                }
+
+
+
+
+                            </div>
+
+
+                            @*div para diagnosticos*@
+                            <div class="container">
+                                    @foreach (var Entries in Model.PatientHistory)
+                                    {
+                                        if (Entries.EntryType == MedicalEntryType.Diagnosis && Entries.EntryDate == Date)
+                                        {
+                                            <div style="background:#b1ddfe; padding: 10px; border-radius: 10px; margin-top: 5px; width:100%; margin:auto;margin-bottom:10px">
+                                                <div>
+                                                    <div class="col-12">
+                                                        <div>
+                                                            @foreach (var Entry in Model.PatientHistory)
+                                                            {
+                                                                if (Entry.EntryType == MedicalEntryType.Diagnosis && Entry.EntryDate == Date)
+                                                                {
+                                                                    <p>Diagnosticos</p>
+                                                                    break;
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                        @foreach (var Entry in Model.PatientHistory)
+                                                        {
+                                                            if (Entry.EntryType == MedicalEntryType.Diagnosis && Entry.EntryDate == Date)
+                                                            {
+                                                                <form method="post">
+                                                                    <p style="font-size:smaller">
+                                                                        @Entry.EntryText
+                                                                        <button onclick="return confirm('¿Está seguro que desea borrar la entrada? Esta acción no se puede revertir')" type="submit" class="btn btn-sm" asp-page-handler="DeleteEntry" asp-route-EntryId="@Entry.Id" asp-route-Id="@Model.Patient.Id"><img alt="delete" src="~/Icons/delete_black_18dp.svg" /></button>
+                                                                        <a asp-page="EditEntry" asp-route-ID="@Entry.Id"><img alt="edit" src="~/Icons/edit_black_18dp.svg" /></a>
+                                                                    </p>
+                                                                </form>
+
+                                                            }
+                                                        }
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            break;
+                                        }
+
+                                    }
+                                </div>
+
+
+
+                        </div>
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

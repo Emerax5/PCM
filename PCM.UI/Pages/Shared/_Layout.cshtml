@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - PCM</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/toastr.min.css" rel="stylesheet" />
+    <link href="~/Images/PCM-neg.png" rel="shortcut icon"/>
+    <link href="~/css/sweetalert.min.css" rel="stylesheet" />
+</head>
+<body style="background: rgb(0,144,244); background: linear-gradient(180deg, rgba(0,144,244,1) 0%, rgba(255,255,255,1) 62%);">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <img class="navbar-brand" src="~/Images/PCM-ZOOMED.png" height="30" />
+            <a class="navbar-brand h1 mb-0" asp-area="" asp-page="/Index">Patient Consultation Manager</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="" asp-page="/Index"><img src="~/Icons/home-black-18dp.svg" alt="Home" /></a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer text-muted" style="font-size:small">
+        <div>
+            &copy; 2021 - Patient Consoultation Manager -
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="~/js/sweetalert.all.min.js"></script>
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script src="~/js/jquery.mask.js"></script>
+    <script src="~/js/Loading.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+<environment>
+    <link href="/css/style.css" rel="stylesheet" />
+    </environment>

@@ -1,0 +1,69 @@
+﻿@page
+@model PCM.UI.Pages.PaymentModel
+@using DTO.DTOModels
+@{
+
+    ViewData["Title"] = "Pago de cita";
+
+}
+<div class="container text-center">
+
+    <h3 class="text-white">@ViewData["Title"]</h3>
+
+</div>
+<div class="container">
+    <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+        <div class="row">
+            <div class="border-bottom col-12 mb-2">
+
+                <h4>Pago cita de la fecha: @Model.appointment.AppointmentDateStart.ToShortDateString() Hora:@Model.appointment.AppointmentHour</h4>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p>Paciente: @Model.patient.FullName</p>
+            </div>
+            <div class="col-6">
+                <p>Servicio: @Model.appointment.AppoinmentReason.DisplayName()</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                @if (Model.patient.Insurance == "Privado")
+                {
+                    <p style="font-size:small">Paciente privado.</p>
+                }
+                else
+                {
+                    <p>Nombre ARS: @Model.patient.Insurance</p>
+                }
+            </div>
+        </div>
+        <div>
+            <form method="post">
+
+                <div class="row">
+                    <div class="col-6">
+                        <label class="mt-2">Precio de cita</label>
+                        <input asp-for="Input.ConsultatioPrice" type="text" class="form-control text-right" style="width:110px" value="100000" id="money">
+                    </div>
+                    <div class="col-6">
+                        @if (Model.patient.Insurance != "Privado")
+                        {
+                            <label class="mt-2">Covertura @Model.patient.Insurance</label>
+                            <input asp-for="Input.InsurenceCover" type="text" class="form-control text-right" style="width:110px" value="50050" id="money2">
+                        }
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                        <button asp-page-handler="Pay" asp-route-Id="@Model.appointment.Id" type="submit" class="btn btn-success"><img src="~/Icons/payments_white_18dp.svg" alt="Alternate Text" /> Pagar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

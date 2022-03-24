@@ -1,0 +1,31 @@
+﻿@page
+@model PCM.UI.Pages.Shared.EditEntryModel
+@using PCM.DTO.DTOModels
+@{
+    ViewData["Title"] = "Editar Entrada";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+        <form method="post">
+            <label>Categoria</label>
+            <select style="margin-bottom:10px; width:auto" asp-for="@Model.Input.Type" class="form-control" asp-items="Html.GetEnumSelectList<MedicalEntryType>()">
+                <option value="@Model.Entry.EntryType" class="font-weight-bold">@Model.Entry.EntryType.DisplayName()</option>
+            </select>
+            <div class="form-group mb-2">
+                <textarea asp-for="@Model.MedicalEntry" class="form-control" rows="6" style="font-size:smaller" required></textarea>
+            </div>
+            <div>
+                <label>Colocar fecha si decea modificar la fecha de entrada.</label>
+                <input style="width:300px" class="form-control" type="date" asp-for="@Model.Input.Date">
+            </div>
+            <div class="text-center">
+                <button asp-page-handler="Edit" onclick="return alert('Esta seguro que desea editar la entrada del historial?')" asp-route-Id="@Model.Entry.Id" type="submit" class="btn btn-primary text-white mt-2"><img src="~/Icons/content_paste-white-18dp.svg" alt="" /> Actualizar</button>
+                <a asp-page="/MedicalHistory" asp-route-ID="@Model.Entry.PatientId" class="btn btn-danger ml-2 mt-2">Cancelar edicion</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@page
+@using PCM.DTO.DTOModels
+@inject SignInManager<IdentityUser> SignInManager
+@model RegisterModel
+@{
+    ViewData["Title"] = "Crear Usuario";
+}
+
+@if (Model.UserRole == Role.Admin)
+{
+    <div class="container text-center">
+        <h3 class="text-white">@ViewData["Title"]</h3>
+    </div>
+}
+
+
+@if (Model.UserCount <= 0 || Model.UserRole == Role.Admin)
+{
+    <div class="container">
+        <div class="row">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" style="background: #fff; padding: 30px; border-radius: 10px;">
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.User" class="form-control" placeholder="Usuario" required autocomplete="off" />
+                        <span asp-validation-for="Input.User" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" asp-for="Input.Password" class="form-control" placeholder="Contraseña" required autocomplete="off" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirmar Contraseña" required autocomplete="off" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Rol</label>
+                        @if (Model.UserCount <= 0)
+                        {
+                            <select asp-for="Input.Role" class="form-control">
+                                <option value="@Role.Admin" selected>Administrador</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="Input.Role" class="form-control" asp-items="Html.GetEnumSelectList<Role>()">
+                                <option value="@Role.Secretary" selected>Elejir...</option>
+                            </select>
+                        }
+                        <span asp-validation-for="Input.Role" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-2 mt-2">Favor introduzca una pregunta de seguridad la cual sera utilizada en caso de olvidar su contraseña.</p>
+                    <div class="form-group">
+                        <input type="text" asp-for="Input.SecurityQuestion" class="form-control" placeholder="Pregunta de seguridad" required autocomplete="off" />
+                        <span asp-validation-for="Input.SecurityQuestion" class="text-danger"></span>
+                        <p class="mb-2 mt-2">Favor introduzca la respuesta a la pregunta de seguridad.</p>
+                    </div><div class="form-group">
+                        <input type="text" asp-for="Input.SecurityAnswer" class="form-control" placeholder="Respuesta de seguridad" required autocomplete="off" />
+                        <span asp-validation-for="Input.SecurityAnswer" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+}
+else
+{
+    <div class="container">
+
+        <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+            <h1 class="text-danger text-center">No tiene acceso a esta pagina.</h1>
+        </div>
+
+    </div>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

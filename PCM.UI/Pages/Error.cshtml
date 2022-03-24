@@ -1,0 +1,26 @@
+﻿@page
+@model ErrorModel
+@{
+    <div class="container">
+        <h1 class="text-white">@ViewData["Title"]</h1>
+    </div>}
+
+<div class="container">
+
+    <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">A ocurrido un error al procesar su solicitud.</h2>
+
+        @if (Model.ShowRequestId)
+        {
+            <p>
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </p>
+        }    
+        <p>
+            Algo anda mal, favor comuniquese con el proveedor si el problema perciste. 
+        </p>
+    </div>
+    
+</div>
+

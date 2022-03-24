@@ -1,0 +1,148 @@
+﻿@page
+@using DTO.DTOModels
+@model PCM.UI.Pages.AppointmentModel
+@{
+    ViewData["Title"] = "Cita";
+
+
+}
+
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <div class="row" style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+        <div class="col-lg-6">
+            @*Div to show information*@
+            <div class="border-bottom">
+                <h3>Informacion de la cita:</h3>
+                <p>Descripcion: @Model.appointment.AppoinmentReason.DisplayName()</p>
+
+            </div>
+
+            <div class="mt-2">
+                @if (Model.appointment.Status == Status.Scheduled || Model.appointment.Status == Status.Reschedule)
+                {
+
+                    <h4 class="text-warning">@Model.appointment.Status.DisplayName()</h4>
+
+                }
+                @if (Model.appointment.Status == Status.Completed || Model.appointment.Status == Status.Confirmed)
+                {
+
+                    <h4 class="text-success">@Model.appointment.Status.DisplayName()</h4>
+
+                }
+                @if (Model.appointment.Status == Status.Cancelled)
+                {
+                    <h4 class="text-danger">@Model.appointment.Status.DisplayName()</h4>
+
+                }
+                @if (Model.appointment.Status == Status.NoShow)
+                {
+                    <h4>@Model.appointment.Status.DisplayName()</h4>
+
+                }
+            </div>
+
+            <p class="font-weight-bold mb-0">Fecha: </p><p>@Model.appointment.AppointmentDateStart.ToLocalTime().ToShortDateString()</p>
+            <p class="font-weight-bold mb-0">Hora: </p><p>@Model.appointment.AppointmentHour</p>
+            <p class="font-weight-bold mb-0"> Paciente: </p><p>@Model.patient.FullName</p>
+            <p class="font-weight-bold mb-0"> Telefono: </p><p>@Model.patient.PhoneNumber</p>
+
+
+            <form method="post">
+                @if (Model.appointment.Status != Status.Cancelled)
+                {
+                    @if (Model.appointment.Status != Status.Completed && Model.appointment.Status != Status.Confirmed && Model.appointment.AppointmentDateStart > DateTime.Today.ToLocalTime())
+                    {
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-success" asp-page-handler="ChangeStatus" asp-route-Id="@Model.appointment.Id" asp-route-Status="@Status.Confirmed"><img src="~/Icons/done-white-18dp.svg" alt="confirm" /> Confirmar</button>
+                        </div>
+                    }
+                    @if (Model.appointment.Status != Status.Completed && Model.appointment.AppointmentDateStart.ToLocalTime() == DateTime.Today)
+                    {
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-success" asp-page-handler="ChangeStatus" asp-route-Id="@Model.appointment.Id" asp-route-Status="@Status.Completed"><img src="~/Icons/done_all-white-18dp.svg" alt="Complete" /> Completar</button>
+                        </div>
+                    }
+
+                }
+
+                @if (Model.appointment.Status != Status.Cancelled && Model.appointment.Status != Status.NoShow)
+                {
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-danger" asp-page-handler="ChangeStatus" asp-route-Id="@Model.appointment.Id" asp-route-Status="@Status.Cancelled"><img src="~/Icons/clear-white-18dp.svg" alt="cancel" /> Cancelar</button>
+                    </div>
+                }
+            </form>
+
+        </div>
+        <div class="col-lg-6">
+            @*Div for the editing*@
+            <p class="font-weight-bold mt-5">Nota:</p>
+            <div class="mt-3">
+                <form method="post" class="mb-1">
+                    <div class="form-group mb-0">
+                        <textarea asp-for="@Model.NoteInProfile" class="form-control" rows="6" style="font-size:small"></textarea>
+                    </div>
+                    @if (Model.appointment.EditedBy != null)
+                    {
+                        <p style="font-size:small">
+                            Última actualización: @Model.appointment.LastEditedTime.ToLocalTime().ToShortTimeString()
+                        </p>
+                    }
+                    <button asp-page-handler="UpdateNote" asp-route-Id="@Model.appointment.Id" onclick="return confirm('¿Está seguro que desea editar nota?')" type="submit" class="btn btn-primary mb-3 mt-2"><img src="~/Icons/mode-white-18dp.svg" alt="Edit" /> Actualizar Nota</button>
+                </form>
+            </div>
+            <div>
+                <div class="mt-2">
+                    <a class="btn btn-primary" asp-page="/PatientProfile" asp-route-Id="@Model.patient.Id"><img src="~/Icons/account_circle-white-18dp.svg" alt="profile" /> Perfil Paciente</a>
+                </div>
+                @if (Model.appointment.Status != Status.Completed)
+                {
+                    <div class="mt-2">
+                        <a class="btn btn-warning text-white" asp-page="/EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.appointment.AppointmentDateStart" asp-route-ApmtId="@Model.appointment.Id"><img src="~/Icons/event-white-18dp.svg" alt="reschedule" /> Reprogramar</a>
+                    </div>
+                }
+
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <label class="labels font-weight-bold mt-5 mb-0">Incertado por</label>
+                    <p>@Model.appointment.CreatedBy @Model.appointment.TimeCreated.ToLocalTime().ToShortDateString()
+                </div>
+                @if (!(Model.appointment.EditedBy == null))
+                {
+                    <div class="col-md-6">
+                        <label class="labels font-weight-bold mt-5 mb-0">Ultima Edición por</label>
+                        <p>@Model.appointment.EditedBy @Model.appointment.LastEditedTime.ToLocalTime().ToShortDateString()
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-2 text-center">
+            @if (Model.appointment.Status != Status.Cancelled && Model.appointment.Status != Status.NoShow)
+            {
+                @if (Model.PaymentStatus == false)
+                {
+
+                    <a class="btn btn-success text-white" asp-page="/Payment" asp-route-Id="@Model.appointment.Id"><img src="~/Icons/payments_white_18dp.svg" alt="reschedule" /> Pagar Cita</a>
+
+                }
+
+            }
+            @if (Model.PaymentStatus == true)
+            {
+
+                <a target="_blank" class="btn btn-info text-white" asp-page="/Invoice" asp-route-Id="@Model.appointment.Id"><img src="~/Icons/receipt_white_18dp.svg" alt="reschedule" /> Recibo</a>
+
+            }
+
+        </div>
+
+    </div>
+</div>

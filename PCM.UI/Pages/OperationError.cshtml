@@ -1,0 +1,25 @@
+﻿@page
+@model PCM.UI.Pages.OperationErrorModel
+@{
+    ViewData["Title"] = "Error de operacion.";
+
+}
+
+<div class="container">
+
+    <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">A ocurrido un error al procesar su solicitud.</h2>
+
+        @if (Model.ErrorTxt != null)
+        {
+            <p>
+                <strong>Mensaje:</strong> <code>@Model.ErrorTxt</code>
+            </p>
+        }
+        <p>
+            Algo anda mal, favor comuniquese con el proveedor si el problema perciste.
+        </p>
+    </div>
+
+</div>

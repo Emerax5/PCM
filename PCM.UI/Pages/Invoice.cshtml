@@ -1,0 +1,130 @@
+﻿@page
+@model PCM.UI.Pages.InvoiceModel
+@using DTO.DTOModels
+@{
+    Layout = "";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/css/print.css" rel="stylesheet" />
+
+@if (Model.EntityCount > 0)
+{
+
+    <div class="container">
+        <div class=" text-right mt-3">
+            <button id="printPageButton" onclick="window.print();return false;" href="#" class="btn btn-primary"><i class="fa fa-print mr5"></i><img src="~/Icons/print_white_24dp.svg" alt="Print" /></button>
+        </div>
+    </div>
+    <div class="container bootdey position-static">
+        <div class="row invoice print">
+            <div class="col-md-10">
+                <!-- col-lg-12 start here -->
+                <div class="panel panel-default plain" id="dash_0">
+                    <!-- Start .panel -->
+                    <div class="panel-body p30">
+                        <div class="row">
+                            <!-- Start .row -->
+                            <div class="col-lg-6">
+                                <!-- col-lg-6 start here -->
+                                <div class="invoice-logo"><img height="100" src="~/Images/Loader.gif" onload="this.onload=null;src='data:image/webp;base64,@Model.img';" alt="Invoice logo"></div>
+                            </div>
+                            <!-- col-lg-6 end here -->
+                            <div class="col-lg-6">
+                                <!-- col-lg-6 start here -->
+                                <div class="invoice-from">
+                                    <ul class="list-unstyled text-right">
+                                        <li>@Model.CurrentEntity.EntityName</li>
+                                        <li>@Model.CurrentEntity.Location</li>
+                                        <li>@Model.CurrentEntity.PhoneNumber</li>
+                                        <li>@Model.CurrentEntity.DoctorName</li>
+                                        <li>@Model.CurrentEntity.Specialty</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- col-lg-6 end here -->
+                            <div class="col-lg-12">
+                                <!-- col-lg-12 start here -->
+                                <div class="invoice-details mt25">
+                                    <div class="well">
+                                        <ul class="list-unstyled mb0">
+                                            <li><strong>Factura#:</strong> @Model.Payment.ReceiptNumber.ToString()</li>
+                                            <li><strong>Fecha del pago:</strong> @Model.PaymentDate;</li>
+                                            <li><strong>Hora del pago:</strong> @Model.Payment.EmitedTime.ToLocalTime().ToLongTimeString();</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="invoice-to mt25">
+                                    <ul class="list-unstyled">
+                                        <li><strong>Factura para:</strong></li>
+                                        <li>@Model.Payment.PatientName</li>
+                                        <li>@Model.Payment.PatientAddress.Address1</li>
+                                        <li>@Model.Payment.PatientAddress.Address2</li>
+                                        <li>@Model.Payment.PatientAddress.City</li>
+                                        @if (Model.Payment.PatientAddress.Povidence != Providence.Notdefined)
+                                        {
+                                            <li>@Model.Payment.PatientAddress.Povidence.DisplayName()</li>
+                                        }
+                                        <li>Telefono: @Model.Payment.PatientPhone</li>
+                                    </ul>
+                                </div>
+                                <div class="invoice-items">
+                                    <div class="table-responsive" style="overflow: hidden; outline: none;" tabindex="0">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="per70 text-center">Servicio</th>
+                                                    <th class="per25 text-center">Monto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>@Model.Payment.Description (@Model.Payment.AppointmentDate.ToShortDateString())</td>
+                                                    <td class="text-center">$<label id="money">@Model.Payment.AppointmentPrice</label> DOP</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Seguro: @Model.Payment.Insurance | Poliza/Carnet: @Model.Payment.InsuranceCardnet</td>
+                                                    <td class="text-center">$<label id="money2">@Model.Payment.InsuranceCoverage</label> DOP</td>
+                                                </tr>
+                                            </tbody>
+                                            <tr>
+                                                <th class="text-right">Total pago paciente:</th>
+                                                <th class="text-center">$<label id="money3">@Model.Payment.TotalPayment</label> DOP</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="invoice-footer mt25">
+                                    <p class="text-center">Fecha de impresión: @Model.PrintDate</p>
+                                </div>
+                            </div>
+                            <!-- col-lg-12 end here -->
+                        </div>
+                        <!-- End .row -->
+                    </div>
+                </div>
+                <!-- End .panel -->
+            </div>
+            <!-- col-lg-12 end here -->
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="container">
+
+        <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+
+            <h1 class=" text-center text-danger">Error al generar factura</h1>
+            <p class="text-center">Favor verificar informacion de la entidad o si el pago esta correcto.</p>
+        </div>
+
+    </div>
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/jquery.mask.js"></script>

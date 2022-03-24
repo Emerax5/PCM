@@ -1,0 +1,96 @@
+﻿@page
+@model PCM.UI.Pages.AddMedicineModel
+@using DTO.DTOModels
+@{
+    ViewData["Title"] = "Insertar farmaco";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <form method="post">
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <label>Nombre Comercial</label>
+                    <input class="form-control" asp-for="Input.ComercialName" required>
+                </div>
+                <div class="col-lg-6">
+                    <label>Nombre Generico</label>
+                    <input class="form-control" asp-for="Input.GenericName" required>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <label>Laboratorio</label>
+                    <input class="form-control" asp-for="Input.Lab">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-lg-6">
+                    <label>Descripcion</label>
+                    <textarea asp-for="@Model.Input.Description" class="form-control" rows="6" style="font-size:smaller"></textarea>
+                </div>
+
+                <div class="col-lg-6">
+                    <label>Efectos secundarios</label>
+                    <textarea asp-for="@Model.Input.SideEffects" class="form-control" rows="6" style="font-size:smaller"></textarea>
+                </div>
+            </div>
+
+
+            <div class="col-12 mt-2 text-center">
+                <button type="submit" class="btn btn-primary btn-large">Insertar</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Farmacos Añadidos</h3>
+        </div>
+    </div>
+
+    @if (Model.AllMedicines.Count != 0 && Model.AllMedicines != null)
+    {
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+            <div>
+                <form method="post">
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Nombre comercial</th>
+                                <th scope="col">Nombre generico</th>
+                                @if (Model.UserCurrentRole != Role.Secretary)
+                                {
+                                    <th scope="col">...</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var medicine in Model.AllMedicines)
+                            {
+                            <tr>
+                                <td>@medicine.ComercialName</td>
+                                <td>@medicine.GenericName</td>
+                                @if (Model.UserCurrentRole != Role.Secretary)
+                                {
+                                    <td>
+                                        <button onclick="return confirm('¿Está seguro? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-Id="@medicine.Id"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></button>
+                                    </td>
+                                }
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    }
+
+</div>

@@ -1,0 +1,159 @@
+﻿@page
+@model PCM.UI.Pages.EditDateModel
+@{
+    ViewData["Title"] = "Reprogramar Cita";
+}
+
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<form method="post">
+    <div class="container">
+        <div class="col-12" style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px; margin:auto; width:480px">
+            <div>
+                <label>Favor introduzca la fecha que desea reprogramar la cita.</label>
+                <input style="width:300px" class="form-control" type="date" asp-for="AppointmentDate">
+                <button type="submit" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" class="btn btn-primary mt-1"><img src="~/Icons/event-white-18dp.svg" alt="ChangeDate" />Cambiar Fecha</button>
+            </div>
+        </div>
+
+        @if (!(Model.patient.InsertionDate == new DateTime(1, 1, 1)))
+        {
+            <div class="text-center mt-2">
+                <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:8px; margin:auto; max-width:480px">
+                    @if (Model.AppointmentsForTheDay.Count < 22)
+                    {
+                        <h2>Fecha cita: @Model.AppointmentDate.ToShortDateString()</h2>
+                        <p>Selecione la hora para reprogramar la cita al paciente @Model.patient.FullName</p>
+                    }
+                    else
+                    {
+                        <h2>Fecha cita: @Model.AppointmentDate.ToShortDateString()</h2>
+                        <p>No hay horas disponibles para esta fecha</p>
+
+                    }
+
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        <tr>
+                            @for (int i = 0; i < 4; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 4; i < 8; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 8; i < 12; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 12; i < 16; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 16; i < 20; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 20; i < Model.ValidHours.Length; i++)
+                            {
+                                @for (int ix = 0; ix <= Model.AppointmentsForTheDay.Count; ix++)
+                                {
+                                    if (ix == Model.AppointmentsForTheDay.Count)
+                                    {
+                                        <td> <button type="submit" asp-page-handler="EditDate" asp-route-Id="@Model.patient.Id" asp-route-Date="@Model.AppointmentDate" asp-route-ApmtId="@Model.Appointment.Id" asp-route-Hour="@Model.ValidHours[i]" class="btn btn-success">@Model.ValidHours[i]</button></td>
+                                        break;
+                                    }
+                                    if (Model.AppointmentsForTheDay[ix].AppointmentHour == Model.ValidHours[i])
+                                    {
+                                        <td> <button disabled class="btn btn-danger">@Model.ValidHours[i]</button>  </td>
+                                        break;
+                                    }
+
+                                }
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        }
+    </div>
+</form>

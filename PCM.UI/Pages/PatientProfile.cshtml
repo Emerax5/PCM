@@ -1,0 +1,361 @@
+﻿@page "{Id?}"
+@model PCM.UI.Pages.PatientProfileModel
+@using DTO.DTOModels
+@{
+    ViewData["Title"] = "Perfil de Paciente";
+}
+
+<div class="container text-center">
+
+    <h3 class="text-white">@ViewData["Title"]</h3>
+
+</div>
+
+
+@if (Model.patient == null)
+{
+    <p>Pacintet no encontrado</p>
+}
+else
+{
+
+    <body>
+        <div class="container">
+            <div style="background: #fff; padding: 20px; border-radius: 10px;">
+                <div class="row">
+                    <div class="col-md-4 border-right">
+                        <div class="d-flex flex-column align-items-center text-center py-5">
+                            @if (Model.patient.ProfilePic == null)
+                            {
+                                <img class="rounded-circle mb-1" src="~/Images/ProfilePlaceHolder.png" width="200">
+                            }
+                            else
+                            {
+
+                                if (Model.img == null)
+                                {
+                                    <img class="rounded-pill mb-1" src="~/Images/Loader.gif" width="200">
+
+                                }
+                                else
+                                {
+
+                                    <img class="rounded-pill mb-1" src="~/Images/Loader.gif" onload="this.onload=null;this.src='data:image/webp;base64,@Model.img';" width="200">
+                                }
+                            }
+                            <lable class="font-weight-bold"> @Model.patient.Name  @Model.patient.LastName</lable>
+                            <lable>ID: @Model.patient.PersonalID</lable>
+                            <lable>Seguro: @Model.patient.Insurance</lable>
+                            @if (Model.patient.InsuranceId != null)
+                            {
+                                @if (Model.patient.InsuranceId.Trim().Length != 0 && Model.patient.Insurance != "Privado")
+                                {
+
+                                    <lable>Poliza/Cardnet: @Model.patient.InsuranceId</lable>
+
+                                }
+                            }
+
+                        </div>
+                        <div class="flex-column text-center">
+                            <a title="Todas las recetas" class="btn btn-success btn-sm" asp-page="/AllPrescriptions" asp-route-Id="@Model.patient.Id"><img src="~/Icons/description_white_18dp.svg" alt="AllPrescription" /></a>
+                            <a title="Programar cita" asp-page="PatientAppointment" asp-route-ID="@Model.patient.Id" class="btn btn-warning btn-sm"><img alt="Appointment" src="~/Icons/event-white-18dp.svg" /></a>
+                            <a title="Editar paciente" asp-page="EditPatient" asp-route-ID="@Model.patient.Id" class="btn btn-info btn-sm"><img alt="edit" src="~/Icons/mode-white-18dp.svg" /></a>
+                            @if (Model.UserRole != Role.Secretary)
+                            {
+                                <a title="Borrar paciente" href="javascript:void(0)" onclick="DeletePatien()" class="btn btn-danger btn-sm"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></a>
+                            }
+                        </div>
+                        <div class="text-center flex-column mt-2 mb-2">
+                            @if (Model.UserRole == Role.Doctor || Model.UserRole == Role.Admin)
+                            {
+                                <a asp-page="MedicalHistory" asp-route-ID="@Model.patient.Id" class="btn btn-primary btn-sm"><img alt="MedicRecord" src="~/Icons/content_paste-white-18dp.svg" /> Motivo de consulta</a>
+                            }
+                        </div>
+                        <div>
+                            @* Div para la tabla de citas *@
+                            @if (Model.ApmtList.Count > 0)
+                            {
+                                <label class=" font-weight-bold">Citas</label>
+                                <div class="table-responsive mt-1 mb-1" style="overflow-y:auto; height:200px">
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Estado</th>
+                                                <th>...</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var Apmt in Model.ApmtList)
+                                            {
+                                                <tr>
+                                                    <td style="font-size:small">@Apmt.AppointmentDateStart.ToShortDateString()</td>
+                                                    @if (Apmt.Status == Status.Scheduled || Apmt.Status == Status.Reschedule)
+                                                    {
+
+                                                        <td class="text-warning" style="font-size:small">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.Completed || Apmt.Status == Status.Confirmed)
+                                                    {
+
+                                                        <td class="text-success" style="font-size:small">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.Cancelled)
+                                                    {
+                                                        <td class="text-danger" style="font-size:small">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    @if (Apmt.Status == Status.NoShow)
+                                                    {
+                                                        <td style="font-size:small">@Apmt.Status.DisplayName()</td>
+
+                                                    }
+                                                    <td>
+                                                        <form method="post">
+                                                            <a formtarget="_blank" type="submit" class="btn btn-success btn-sm" asp-page="Appointment" asp-route-Id="@Apmt.Id"><img src="~/Icons/drive_file_move-white-18dp.svg" alt="open" /></a>
+                                                            @if (Model.UserRole != Role.Secretary)
+                                                            {
+                                                                <button onclick="return confirm('¿Está seguro que desea borrar la cita? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-sm" asp-page-handler="DeleteAppointment" asp-route-ApmtId="@Apmt.Id" asp-route-Id="@Model.patient.Id"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></button>
+
+                                                            }
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4 border-right">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold mb-0">Telefono</label>
+                                <p>@Model.patient.PhoneNumber
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels font-weight-bold mb-0">Nacionalidad</label>
+                                @if (Model.patient.Nationality == null)
+                                {
+                                    <p class="text-muted">-No definido-</p>
+                                }
+                                else
+                                {
+                                    <p>@Model.patient.Nationality</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold mb-0">Typo de Sangre</label>
+                                <p>@Model.patient.BloodType.DisplayName()
+                            </div>
+                            @if (Model.Age > 17)
+                            {
+                                <div class="col-md-6">
+                                    <label class="font-weight-bold mb-0">Estado Civil</label>
+                                    <p>@Model.patient.civilStatus.DisplayName()
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                    <label class="font-weight-bold mb-0 text-danger">Menor de edad</label>
+                                </div>
+                            }
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="font-weight-bold mb-0">Fecha de nacimiento</label>
+                                <p>@Model.patient.BirthDay.ToShortDateString()
+                            </div>
+                            <div class="col-md-6">
+                                <label class="font-weight-bold mb-0">Edad</label>
+                                <p>@Model.Age.ToString()
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels font-weight-bold mb-0">Religion</label>
+                                @if (Model.patient.Religion == null)
+                                {
+                                    <p class="text-muted">-No definido-</p>
+                                }
+                                else
+                                {
+                                    <p>@Model.patient.Religion</p>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels font-weight-bold mb-0">Sexo</label>
+                                <p>@Model.patient.sex.DisplayName()
+                            </div>
+                        </div>
+                        @if (!(Model.patient.Address == null))
+                        {
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label class="font-weight-bold mb-0">Direccion</label>
+                                    @if (Model.patient.Address.Address1 == null)
+                                    {
+                                        <p>Dirección 1: -No definida-</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Dirección 1: @Model.patient.Address.Address1</p>
+                                    }
+                                </div>
+                                <div class="col-md-12">
+                                    @if (Model.patient.Address.Address2 == null)
+                                    {
+                                        <p>Dirección 2: -No definida-</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Dirección 2: @Model.patient.Address.Address2</p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class="labels font-weight-bold mb-0">Ciudad</label>
+                                    @if (Model.patient.Address.City == null)
+                                    {
+                                        <p class="text-muted">-No definida-</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@Model.patient.Address.City</p>
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels font-weight-bold mb-0">Provinica</label>
+                                    <p>@Model.patient.Address.Povidence.DisplayName()
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels font-weight-bold mt-5 mb-0">Incertado por</label>
+                                    <p>@Model.patient.CreatedBy @Model.patient.InsertionDate.ToLocalTime().ToShortDateString()
+                                </div>
+                                @if (!(Model.patient.LastEditedBy == null))
+                                {
+                                    <div class="col-md-6">
+                                        <label class="labels font-weight-bold mt-5 mb-0">Ultima Edición por</label>
+                                        <p>@Model.patient.LastEditedBy @Model.patient.LastEditedTime.ToLocalTime().ToShortDateString()
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <div class="justify-content-between">
+                            <label class="labels font-weight-bold mb-3">Alergias</label>
+                            <form method="post">
+                                <div class="form-group">
+                                    <textarea asp-for="@Model.AlegiesInProfile" class="form-control" rows="6" style="font-size:small"></textarea>
+                                    @if (Model.patient.AlegieEditedBy != null)
+                                    {
+                                        <p style="font-size:small">
+                                            Última actualización por: @Model.patient.AlegieEditedBy @Model.patient.UpsertAlergieDate.ToLocalTime().ToShortDateString() @Model.patient.UpsertAlergieDate.ToLocalTime().ToShortTimeString()
+                                        </p>
+                                    }
+                                </div>
+                                <button asp-page-handler="UpdateNote" onclick="return confirm('¿Está seguro que desea editar?')" type="submit" class="btn btn-primary"> <img src="~/Icons/mode-white-18dp.svg" alt="Edit" />Actualizar Alergias</button>
+                            </form>
+                            @if (Model.DocInfoList.Count > 0)
+                            {
+                                <label class=" mb-3 mt-3 font-weight-bold">Documentos</label>
+                                <div class="table-responsive mt-1 mb-1" style="overflow-y:auto; height:200px">
+                                    <table class="table table-bordered table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Nombre del archivo</th>
+                                                <th>...</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var Doc in Model.DocInfoList)
+                                            {
+                                                <tr>
+                                                    <td style="font-size:small">@Doc.DocumentName</td>
+                                                    <td>
+                                                        <form method="post">
+                                                            <button formtarget="_blank" type="submit" class="btn btn-success btn-sm" asp-page-handler="ShowFile" asp-route-DocId="@Doc.DocumentId" asp-route-FileName="@Doc.DocumentName"><img src="~/Icons/drive_file_move-white-18dp.svg" alt="open" /></button>
+                                                            <button onclick="return confirm('¿Está seguro que desea borrar el archivo? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-sm" asp-page-handler="DeleteFile" asp-route-DocId="@Doc.DocumentId"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            <form enctype="multipart/form-data" method="post">
+                                <div class="mt-2">
+                                    <input type="file" asp-for="@Model.Input.file" class="form-control-file" accept=".jpg,.pdf,.docx" required>
+                                    <button id="btnSubmit" type="submit" asp-page-handler="SaveFile" class="btn btn-primary btn-large mt-2"><img src="~/Icons/upload_file-white-18dp.svg" alt="Alternate Text" /> Guardar archivo</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(window).load(function () {
+                $('#loading').hide();
+            });
+        </script>
+    </body>}
+
+@*js to delete patients*@
+<script type="text/javascript">
+    function DeletePatien() {
+        swal({
+            title: "Esta Seguro?",
+            text: "Esta acción no se puede revertir!!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Si, Borrar!",
+            closeOnConfirm: false
+        },
+            function (isConfirm) {
+                if (!isConfirm) return;
+                $.ajax({
+                    url: "?handler=delete",
+                    type: "POST",
+                    dataType: "html",
+                    success: function (result) {
+                        swal({
+                            title: "Hecho!",
+                            text: "Borrado exitosamente!",
+                            type: "success",
+                            confirmButtonText: "OK"
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    window.location.href = "/FindPatiens";
+                                }
+                            });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal({
+                            title: "Error!",
+                            text: "Intente mas tarde!",
+                            type: "error",
+                            confirmButtonText: "OK"
+                        }, function () {
+                            if (isConfirm) {
+                                window.location.href = "/Index";
+                            }
+                        }
+                        );
+                    }
+                });
+            });
+    }
+</script>
+

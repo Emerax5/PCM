@@ -1,0 +1,52 @@
+﻿@page
+@model PCM.UI.Pages.AddARSModel
+@{
+    ViewData["Title"] = "Insertar ARS";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+    <form method="post">
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+            <div class="col-12">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <label>Nombre ARS</label>
+                <input style="width:300px" class="form-control" asp-for="Input.ARSName">
+            </div>
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-primary btn-large">Insertar</button>
+            </div>
+        </div>
+    </form>
+
+    @if (Model.AllARS.Count != 0 && Model.AllARS != null)
+    {
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+            <form method="post">
+                <table class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ARS</th>
+                            <th scope="col">...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ARS in Model.AllARS)
+                        {
+                            <tr>
+                                <td>@ARS.Name</td>
+                                <td>
+                                    <button onclick="return confirm('¿Está seguro? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-Id="@ARS.Id"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+
+        </div>
+    }
+
+</div>

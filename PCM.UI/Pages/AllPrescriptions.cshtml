@@ -1,0 +1,56 @@
+﻿@page
+@model PCM.UI.Pages.AllPrescriptionsModel
+@using DTO.DTOModels
+@{
+    ViewData["Title"] = "Listado de recetas médicas";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+@if (Model.prescriptions.Count != 0 && Model.prescriptions != null)
+{
+   
+<div style="background: #fff; padding: 30px; border-radius: 10px; margin-top:10px">
+    <div class="container text-center">
+        <h3>Recetas: @Model.patient.FullName</h3>
+    </div>
+    <div>
+        <form method="post">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Fecha receta</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Pres in Model.prescriptions)
+                    {
+                        <tr>
+                            <td>@Pres.AddedDate.ToLocalTime().ToShortDateString()</td>
+                            <td>
+                                @if (Model.UserRole != Role.Secretary)
+                                {
+                                    <button onclick="return confirm('¿Está seguro? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-sm" asp-page-handler="Delete" asp-route-PId="@Pres.Id"><img alt="delete" src="~/Icons/delete-white-18dp.svg" /></button>
+
+                                }
+                                <a target="_blank" type="submit" asp-page="/Prescription" asp-route-pID="@Pres.Id" class="btn btn-info btn-sm ml-2"><img src="~/Icons/description_white_18dp.svg" alt="Search" /></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+}
+else
+	{
+    <div class="container text-center">
+        <h3 class="text-white">No hay recetas</h3>
+        <div style="margin:auto; margin-top:20px">
+            <img src="/Images/NotFound.png" alt="Not found" height="250" />
+        </div>
+    </div>
+    }

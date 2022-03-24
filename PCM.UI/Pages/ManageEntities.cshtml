@@ -1,0 +1,78 @@
+﻿@page
+@model PCM.UI.Pages.ManageEntitiesModel
+@{
+    ViewData["Title"] = "Manejar Entidades";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+
+<div class="container">
+
+    <div style="background: #ffff; padding: 30px; border-radius: 10px;  max-width:1000px; margin:auto; margin-top:20px">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @if (Model.EntityCount > 0)
+        {
+            <img class="mb-1" src="~/Images/Loader.gif" onload="this.onload=null;this.src='data:image/webp;base64,@Model.img';" width="150">
+            <p class="mb-0">@Model.CurrentEntity.EntityName</p>
+            <p class="mb-0">@Model.CurrentEntity.DoctorName</p>
+            <p class="mb-0">@Model.CurrentEntity.Specialty</p>
+            <p class="mb-0">@Model.CurrentEntity.Exequatur</p>
+            <p class="mb-0">@Model.CurrentEntity.Location</p>
+            <p class="mb-0">@Model.CurrentEntity.PhoneNumber</p>
+            <form method="post">
+                <div class="col-12 text-center mt-3">
+                    <button asp-route-Id="@Model.CurrentEntity.Id" asp-page-handler="Delete" onclick="return confirm('¿Está seguro? Esta acción no se puede revertir')" type="submit" class="btn btn-danger btn-large">Borrar entidad</button>
+                </div>
+            </form>
+
+        }
+        else
+        {
+            <form enctype="multipart/form-data" method="post">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <label class="mb-0 mt-2">Nombre de la entidad</label>
+                        <input asp-for="Input.EntityName" class="form-control" required>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12 ">
+                        <label class="mb-0 mt-2">Localizacion</label>
+                        <input asp-for="Input.Location" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <label class="mb-0 mt-2">Especialidad</label>
+                        <input asp-for="Input.Specialty" class="form-control" required>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12 ">
+                        <label class="mb-0 mt-2">Exequátur</label>
+                        <input asp-for="Input.Exequatur" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <label class="mb-0 mt-2">Telefono</label>
+                        <input asp-for="Input.PhoneNumber" id="phone" type="tel" class="form-control" placeholder="(000) 000-0000" required>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12 ">
+                        <label class="mb-0 mt-2">Nombre de Doctor</label>
+                        <input asp-for="Input.DoctorName" type="text" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <label for="inputState" class="mb-0 mt-2">Logo entidad</label>
+                        <input type="file" asp-for="Input.Logo" class="form-control-file" accept=".jpg,.png" required>
+                    </div>
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <button type="submit" class="btn btn-primary btn-large">Agregar entidad</button>
+                </div>
+            </form>
+
+        }
+    </div>
+</div>

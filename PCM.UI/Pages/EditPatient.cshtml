@@ -1,0 +1,123 @@
+﻿@page "{ID?}"
+@using DTO.DTOModels
+@model PCM.UI.Pages.EditPatientModel
+@{
+    ViewData["Title"] = "Editar datos del Paciente";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+<link href="~/css/table.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <form method="post" enctype="multipart/form-data" style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <h1 class="h3 mb-3 font-weight-normal"> Editar paciente</h1>
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <label>Nombre</label>
+                    <input value="@Model.patient.Name" asp-for="Input.Name" class="form-control">
+                </div>
+                <div class="col-lg-6 col-sm-12 col-12 ">
+                    <label>Apellido</label>
+                    <input value="@Model.patient.LastName" asp-for="Input.LastName" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-3 col-md-6">
+                    <label>Cedula/Pasaporte</label>
+                    <input value="@Model.patient.PersonalID" asp-for="Input.PersonalID" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Fecha de nacimiento</label>
+                    <input value="@Model.patient.BirthDay" asp-for="Input.BirthDay" type="date" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Sexo</label>
+                    <select asp-for="Input.sex" class="form-control" asp-items="Html.GetEnumSelectList<Sex>()">
+                        <option value="@Model.patient.sex" class="font-weight-bold">@Model.patient.sex.DisplayName()</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Tipo de sangre</label>
+                    <select asp-for="Input.BloodType" class="form-control" asp-items="Html.GetEnumSelectList<BloodType>()">
+                        <option value="@Model.patient.BloodType" class="font-weight-bold">@Model.patient.BloodType.DisplayName()</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-3 col-md-6">
+                    <label>Estado civil</label>
+                    <select asp-for="Input.civilStatus" class="form-control" asp-items="Html.GetEnumSelectList<CivilStatus>()">
+                        <option value="@Model.patient.civilStatus" class="font-weight-bold">@Model.patient.civilStatus.DisplayName()</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Nacionalidad</label>
+                    <input value="@Model.patient.Nationality" asp-for="Input.Nationality" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Religion</label>
+                    <input value="@Model.patient.Religion" asp-for="Input.Religion" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label for="inputState">Foto paciente</label>
+                    <input type="file" asp-for="Input.file" class="form-control-file" accept=".jpg,.png">
+                </div>
+                <div class="col-lg-3 col-md-6 mt-2">
+                    <label>Seguro</label>
+                    <select asp-for="Input.Insurance" class="form-control">
+                        <option value="@Model.patient.Insurance" selected class="font-weight-bold">@Model.patient.Insurance</option>
+                        <option value="Privado">Privado</option>
+                        @foreach (var ARS in Model.AllARS)
+                        {
+
+                            <option value="@ARS.Name">@ARS.Name</option>
+
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-2">
+                    <label for="inputState">Poliza/Cardnet </label>
+                    <input value="@Model.patient.InsuranceId" asp-for="Input.InsuranceId" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label>Dirección 1</label>
+                    <input value="@Model.patient.Address.Address1" asp-for="Input.Address.Address1" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label>Dirección 2</label>
+                    <input value="@Model.patient.Address.Address2" asp-for="Input.Address.Address2" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-lg-6 col-md-12">
+                    <label>Ciudad/Municipio</label>
+                    <input value="@Model.patient.Address.City" asp-for="Input.Address.City" type="text" class="form-control">
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Provincia</label>
+                    <select asp-for="Input.Address.Povidence" class="form-control" asp-items="Html.GetEnumSelectList<Providence>()">
+                        <option value="@Model.patient.Address.Povidence" class="font-weight-bold">@Model.patient.Address.Povidence.DisplayName()</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <label>Telefono</label>
+                    <input value="@Model.patient.PhoneNumber" id="phone" asp-for="Input.PhoneNumber" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <button id="btnSubmit" type="submit" onclick="return confirm('Esta seguro que desea editar el paciente?')" class="btn btn-primary btn-large">Editar pasiente</button>
+                    <a asp-page="/PatientProfile" asp-route-ID="@Model.patient.Id" class="btn btn-danger btn-large">Cancelar edicion</a>
+                </div>
+            </div>            
+        </form>
+    </div>
+
+</div>
