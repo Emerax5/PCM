@@ -12,7 +12,7 @@ namespace PCM.Data.CRUDs
 
             bool online = false;
 
-            if (online = true)
+            if (online == true)
             {
                 return new MongoClient(string.Format("mongodb+srv://Enmanuel:ditto05@pcmcluster.sjjmn.mongodb.net/{0}?retryWrites=true&w=majority", database));
             }
