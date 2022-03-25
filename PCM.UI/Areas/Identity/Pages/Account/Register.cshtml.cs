@@ -17,6 +17,7 @@ using PCM.DTO.DTOModels;
 using PCM.Core.Users;
 using static Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal.ExternalLoginModel;
 using PCM.Core.CommunSevices;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Areas.Identity.Pages.Account
 {
@@ -28,6 +29,8 @@ namespace PCM.UI.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         ErrorMesseges error = new ErrorMesseges();
         UserServices userServices = new UserServices();
+        LogServices logServices = new LogServices();
+
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -118,15 +121,16 @@ namespace PCM.UI.Areas.Identity.Pages.Account
                     dbUser.SecurityAnswer = Input.SecurityAnswer.ToString().Trim();
                     dbUser.Role = Input.Role;
 
-                    db.AddUser(dbUser);                    
-                  
+                    db.AddUser(dbUser);
 
+                    logServices.Log("User " +dbUser.UserName +" created, " + "Role: " + dbUser.Role.DisplayName());
                     return RedirectToPage("RegisterConfirmation", new { email = Input.User, returnUrl = returnUrl });                       
                     
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
+                    logServices.Log("Fail to create user" + error.Description);
                 }
             }
 

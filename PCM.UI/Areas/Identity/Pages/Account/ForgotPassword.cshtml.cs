@@ -11,14 +11,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using PCM.Core.CommunSevices;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         ErrorMesseges error = new ErrorMesseges();
+        LogServices logServices = new LogServices();
+
 
         public ForgotPasswordModel(UserManager<IdentityUser> userManager)
         {
@@ -43,10 +47,12 @@ namespace PCM.UI.Areas.Identity.Pages.Account
 
                 if (!(user == null))
                 {
+                    logServices.Log(string.Format("User {0} atempting to change password",Input.User.Trim()));
                     return RedirectToPage("./ResetPassword", new {UserFP = Input.User.Trim() });
                 }
                 
             }
+            logServices.Log("User not found to change password, User:" + Input.User.Trim());
             ModelState.TryAddModelError(String.Empty, error.UserNotFound);
 
             return Page();

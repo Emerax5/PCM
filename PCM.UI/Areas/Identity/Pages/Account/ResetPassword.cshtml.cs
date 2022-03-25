@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using PCM.Core.AdminTools;
 using PCM.Core.CommunSevices;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
@@ -22,6 +23,8 @@ namespace PCM.UI.Areas.Identity.Pages.Account
         UserServices _userServices = new UserServices();
         User dbUser = new User();
         ErrorMesseges Error = new ErrorMesseges();
+        LogServices LogServices = new LogServices();
+
         [BindProperty]
         public Role UserRole { get; set; }
 
@@ -85,6 +88,8 @@ namespace PCM.UI.Areas.Identity.Pages.Account
 
                     ModelState.AddModelError(string.Empty, Error.ConfirmationAnswerNotMatch);
 
+                    LogServices.Log("Password did not change cause confirmation answer did not match for user: " + dbuser.UserName );
+
                     return Page();
                 }
             }
@@ -95,11 +100,15 @@ namespace PCM.UI.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, resetToken, Input.Password.Trim());
             if (result.Succeeded)
             {
+                LogServices.Log("Password changed for user: " + dbuser.UserName);
+
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
             foreach (var error in result.Errors)
             {
+                LogServices.Log("Password change fail, error: " + error.Description);
+
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return Page();

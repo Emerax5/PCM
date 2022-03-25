@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PCM.DTO.DTOModels;
 using PCM.Core.CommunSevices;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Areas.Identity.Pages.Account
 {
@@ -24,6 +25,8 @@ namespace PCM.UI.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        LogServices logServices = new LogServices();
+
 
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
@@ -61,6 +64,8 @@ namespace PCM.UI.Areas.Identity.Pages.Account
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
+                logServices.Log(string.Format("User fail loggin :{0}, Username used: {1} ",ErrorMessage, Input.User));
+
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
             // Clear the existing external cookie to ensure a clean login process
@@ -81,16 +86,19 @@ namespace PCM.UI.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    logServices.Log(string.Format("User {0} logged in",Input.User));
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }              
                 if (result.IsLockedOut)
                 {
+                    logServices.Log(string.Format("User {0} locked out", Input.User));
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
+                    logServices.Log(string.Format("User loggin error, username used {0}", Input.User));
                     ModelState.AddModelError(string.Empty, Error.VerifyCredentials);
                     return Page();
                 }

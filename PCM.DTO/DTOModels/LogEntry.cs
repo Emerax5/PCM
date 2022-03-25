@@ -12,10 +12,10 @@ namespace PCM.DTO.DTOModels
         public ObjectId Id { get; set; }
         public string Message { get; set; }
         public string ErrorMessage { get; set; }
-        public Type Type { get; set; }
+        public LogType Type { get; set; }
         public DateTime Time { get; set; }
     }
-    public enum Type
+    public enum LogType
     {
         info,
         error
