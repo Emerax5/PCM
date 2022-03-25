@@ -48,6 +48,8 @@ namespace PCM.UI.Pages
 
             prescriptions = prescriptionServices.GetAllPrescriptionsByPatientId(Id);
 
+            logServices.Log(string.Format("User {0} accessed prescriptions for patien id {1}", User.Identity.Name, Id));
+
         }
         public IActionResult OnPostDelete(string PId)
         {
@@ -63,6 +65,8 @@ namespace PCM.UI.Pages
             {
                 indicationServices.RemoveIndicationById(ind.Id);
             }
+            logServices.Log(string.Format("User {0} deleted prescription for patien {1}, patien ID: {2}", User.Identity.Name,patient.FullName,patient.Id));
+
 
             return RedirectToPage("./AllPrescriptions", new { Id = patient.Id });
         }

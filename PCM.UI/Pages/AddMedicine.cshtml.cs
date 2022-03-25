@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
@@ -12,6 +13,7 @@ using PCM.DTO.DTOModels;
 
 namespace PCM.UI.Pages
 {
+    [Authorize]
     public class AddMedicineModel : PageModel
     {
 
@@ -42,6 +44,9 @@ namespace PCM.UI.Pages
             UserCurrentRole = userServices.GetRoleByUserName(User.Identity.Name);
 
             AllMedicines = medicineServices.GetAllMedicines();
+
+            logServices.Log(string.Format("User {0} accessed Medicine menu", User.Identity.Name));
+
         }
 
         public IActionResult OnPost()
@@ -77,6 +82,8 @@ namespace PCM.UI.Pages
                 if (Input.Description != null) medicine.Description = Input.Description.Trim();
 
                 medicineServices.AddMedicine(medicine);
+                logServices.Log(string.Format("User {0} added medicine {1}", User.Identity.Name, medicine.ComercialName));
+
             }
 
             return RedirectToPage("./AddMedicine");
@@ -86,6 +93,7 @@ namespace PCM.UI.Pages
         {
 
             medicineServices.RemoveMedicineById(ObjectId.Parse(Id));
+            logServices.Log(string.Format("User {0} deleted medicine ID: {1}", User.Identity.Name, Id));
 
             return RedirectToPage("./AddMedicine");
         }

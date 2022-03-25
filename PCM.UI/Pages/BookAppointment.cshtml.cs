@@ -59,6 +59,8 @@ namespace PCM.UI.Pages
                 OnPostGetDay(Id,DateTime.Parse(Date));
 
             }
+            logServices.Log(string.Format("User {0} appointment booking menu", User.Identity.Name));
+
         }
 
         public IActionResult OnPostRequestName()
@@ -71,6 +73,9 @@ namespace PCM.UI.Pages
             patients = patientServices.GetPatientsByFullName(name);
 
             ResultsCount = patients.Count();
+
+            logServices.Log(string.Format("User {0} serched for {1} at the appoinment booking menu", User.Identity.Name, Input.PateintSerch));
+
 
             return Page();
 
@@ -111,6 +116,9 @@ namespace PCM.UI.Pages
                 appointment.Id = ObjectId.GenerateNewId();
 
                 appointmentServices.AddAppointment(appointment);
+
+                logServices.Log(string.Format("User {0} booked appointment for patien ID: {1}, appoitment ID: {2}", User.Identity.Name,patient.Id,appointment.Id));
+
 
                 return RedirectToPage("./AppointmentConfirmation", new { Id = appointment.Id});
 

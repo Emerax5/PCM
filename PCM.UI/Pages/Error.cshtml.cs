@@ -13,7 +13,6 @@ namespace PCM.UI.Pages
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-        LogServices logServices = new LogServices();
 
         public string RequestId { get; set; }
 
@@ -29,6 +28,8 @@ namespace PCM.UI.Pages
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+
+
         }
     }
 }

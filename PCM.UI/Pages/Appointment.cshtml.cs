@@ -51,6 +51,9 @@ namespace PCM.UI.Pages
 
             appointment = appointmentServices.GetAppointmentsById(apmtId);
 
+            logServices.Log(string.Format("User {0} accessed appointment ID:{1} for patien Id {2}, ", User.Identity.Name, Id, patient.Id));
+
+
         }
 
         public IActionResult OnPostUpdateNote(string Id)
@@ -58,6 +61,8 @@ namespace PCM.UI.Pages
             ObjectId ApmtId = ObjectId.Parse(Id);
 
             appointmentServices.UpsertNote(ApmtId, NoteInProfile, User.Identity.Name);
+
+            logServices.Log(string.Format("User {0} updated notes on appointment ID: {1}", User.Identity.Name,Id));
 
             return RedirectToPage("./Appointment", new { ID = Id });
         }
@@ -80,6 +85,9 @@ namespace PCM.UI.Pages
             }
 
             appointmentServices.ChangeStatus(ApmtId, (int)Status, hour);
+
+            logServices.Log(string.Format("User {0} changed status for appointment ID: {1} to {2}", User.Identity.Name, Id, Status.DisplayName()));
+
 
             return RedirectToPage("./Appointment", new { ID = Id });
 

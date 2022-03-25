@@ -51,6 +51,7 @@ namespace PCM.UI.Pages
             {
                 OnPostRequestAll(pageNumber);
             }
+
         }
 
         public IActionResult OnPostRequestName()
@@ -65,6 +66,8 @@ namespace PCM.UI.Pages
 
             ResultsCount = Patients.Count();
 
+            logServices.Log(string.Format("User {0} searched patien name :{1} on the search patient page", User.Identity.Name,name));
+
             return Page();
         
         }
@@ -74,7 +77,9 @@ namespace PCM.UI.Pages
             Patients = dbPatientList.GetPatientsByPersonalID(Input.FindRequest);
 
             ResultsCount = Patients.Count();
-                       
+
+            logServices.Log(string.Format("User {0} searched patient persoanl id :{1} on the search patient page", User.Identity.Name,Input.FindRequest));
+
             return Page();
 
         }
@@ -96,6 +101,8 @@ namespace PCM.UI.Pages
             NextPage = CurentPage + 1;
            
             ResultsCount = dbPatientList.GetAllPatientsCount();
+
+            if (CurentPage == 1) logServices.Log(string.Format("User {0} requested a full list of all patients at the search patient page", User.Identity.Name));
 
             return Page();
 

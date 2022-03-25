@@ -38,10 +38,13 @@ namespace PCM.UI.Pages
             if (userServices.GetRoleByUserName(User.Identity.Name) == Role.Admin)
             {
                 AllARS = ARSServices.GetAllARS();
+                logServices.Log(string.Format("User {0} accessed the ARS menu", User.Identity.Name));
+
                 return Page();
             }
             else
             {
+                logServices.Log(string.Format("User {0} tryed to access the ARS menu",User.Identity.Name));
                 return RedirectToPage("./NotAllowed");
 
             }
@@ -75,6 +78,9 @@ namespace PCM.UI.Pages
                 ars.AddedDate = DateTime.Now;
                 ars.Name = Input.ARSName.Trim();
 
+                logServices.Log(string.Format("User {0} added ARS {1}", User.Identity.Name, ars.Name));
+
+
                 ARSServices.AddARS(ars);
             }
 
@@ -86,9 +92,10 @@ namespace PCM.UI.Pages
 
 
         public IActionResult OnPostDelete(string Id)
-        {           
+        {               
 
-            ARSServices.RemoveARSById(ObjectId.Parse(Id));            
+            ARSServices.RemoveARSById(ObjectId.Parse(Id));
+            logServices.Log(string.Format("User {0} deleted ARS ID: {1}", User.Identity.Name, Id));
 
             return RedirectToPage("./AddARS");
         }

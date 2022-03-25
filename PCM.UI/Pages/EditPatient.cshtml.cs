@@ -73,6 +73,9 @@ namespace PCM.UI.Pages
 
             patient = patientServices.GetPatienByID(patientId);
 
+            logServices.Log(string.Format("User {0} accessed edit page for patien Id: {1}", User.Identity.Name,ID));
+
+
         }
 
         public IActionResult OnPost(string id)
@@ -158,6 +161,8 @@ namespace PCM.UI.Pages
             dbPatient.LastEditedTime = todayDate;
 
             patientServices.UpsertPatient(patient.Id, dbPatient);
+
+            logServices.Log(string.Format("User {0} updated patient id: {1}", User.Identity.Name, id));
 
             return RedirectToPage("./PatientProfile", new { ID = id });
 

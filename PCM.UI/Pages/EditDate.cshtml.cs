@@ -54,7 +54,9 @@ namespace PCM.UI.Pages
 
             patient = patientServices.GetPatienByID(patientId);
 
-            AppointmentsForTheDay = appointmentServices.GetAppointmentsByDate(AppointmentDate);          
+            AppointmentsForTheDay = appointmentServices.GetAppointmentsByDate(AppointmentDate);
+
+            logServices.Log(string.Format("User {0} atempting to change appoitment date for appointment ID: {1} ", User.Identity.Name, apomtId));
 
 
         }
@@ -73,6 +75,8 @@ namespace PCM.UI.Pages
             ObjectId id = ObjectId.Parse(ApmtId);
 
             appointmentServices.Reschedule(id, hour, DateTime.Parse(date), User.Identity.Name );
+
+            logServices.Log(string.Format("User {0} edited date for appointment ID: {1} to {2} ", User.Identity.Name,ApmtId, date));
 
             return RedirectToPage("./Appointment", new { ID = ApmtId });
         }

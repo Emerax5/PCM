@@ -46,6 +46,7 @@ namespace PCM.UI.Pages.Shared
 
                     Entry = medicalEntryServices.GetEntryById(ObjectId.Parse(ID));
                     MedicalEntry = Entry.EntryText;
+                    logServices.Log(string.Format("User {0} accessed medical entry ID: {1}", User.Identity.Name,ID));
 
                 }
 
@@ -54,6 +55,7 @@ namespace PCM.UI.Pages.Shared
             else
             {
 
+                logServices.Log(string.Format("User {0} attempted to edit a medical entry for Entry Id: {1}, role not allowed ", User.Identity.Name,ID));
                 return RedirectToPage("./NotAllowed");
 
             }
@@ -79,11 +81,11 @@ namespace PCM.UI.Pages.Shared
             dbEntry.CreatedBy = Entry.CreatedBy;
             dbEntry.Id = Entry.Id;
             dbEntry.PatientId = Entry.PatientId;
-
-
    
 
             medicalEntryServices.UpsertEntry(Entry.Id, dbEntry);
+            logServices.Log(string.Format("User {0} updated medical entry ID: {1}", User.Identity.Name, Id));
+
 
             return RedirectToPage("./MedicalHistory", new { ID = Entry.PatientId });
         }
