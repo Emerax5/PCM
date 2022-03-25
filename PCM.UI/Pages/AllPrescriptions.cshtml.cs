@@ -9,6 +9,7 @@ using PCM.DTO.DTOModels;
 using PCM.Core.Patients;
 using MongoDB.Bson;
 using PCM.Core.Users;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Pages
 {
@@ -19,6 +20,8 @@ namespace PCM.UI.Pages
         PrescriptionServices prescriptionServices = new PrescriptionServices();
         IndicationServices indicationServices = new IndicationServices();
         UserServices userServices = new UserServices();
+        LogServices logServices = new LogServices();
+
 
         public Patient patient { get; set; }
         public List<Prescription> prescriptions { get; set; }

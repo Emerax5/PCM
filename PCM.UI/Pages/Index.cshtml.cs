@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using PCM.Core.AdminTools;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
 
@@ -16,7 +17,9 @@ namespace PCM.UI.Pages
         private readonly ILogger<IndexModel> _logger;
 
 
-        UserServices userServices = new UserServices();      
+        UserServices userServices = new UserServices();
+        LogServices logServices = new LogServices();
+
 
         public int UserCount { get; set; }
         public User user { get; set; }

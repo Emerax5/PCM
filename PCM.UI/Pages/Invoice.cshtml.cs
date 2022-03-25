@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
@@ -17,6 +18,8 @@ namespace PCM.UI.Pages
     {
         EntityServices entityServices = new EntityServices();
         PaymentServices paymentServices = new PaymentServices();
+        LogServices logServices = new LogServices();
+
         CultureInfo es = new CultureInfo("es-ES");
 
         public Entity CurrentEntity { get; set; }

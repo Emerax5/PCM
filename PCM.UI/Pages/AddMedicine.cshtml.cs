@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
@@ -16,6 +17,8 @@ namespace PCM.UI.Pages
 
         MedicineServices medicineServices = new MedicineServices();
         UserServices userServices = new UserServices();
+        LogServices logServices = new LogServices();
+
 
         [BindProperty]
         public InputModel Input { get; set; }

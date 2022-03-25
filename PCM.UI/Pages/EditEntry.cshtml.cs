@@ -9,6 +9,7 @@ using PCM.Core.Users;
 using PCM.Core.Patients;
 using Microsoft.AspNetCore.Authorization;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Pages.Shared
 {
@@ -17,6 +18,8 @@ namespace PCM.UI.Pages.Shared
     {
         MedicalEntryServices medicalEntryServices = new MedicalEntryServices();
         UserServices userServices = new UserServices();
+        LogServices logServices = new LogServices();
+
 
         [BindProperty]
         public InputModel Input { get; set; }

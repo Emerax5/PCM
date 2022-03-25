@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.DTO.DTOModels;
 
@@ -15,6 +16,8 @@ namespace PCM.UI.Pages
     public class FindPatiensModel : PageModel
     {
         PatientServices dbPatientList = new PatientServices();
+        LogServices logServices = new LogServices();
+
 
         public IList<Patient> Patients { get; set; }
 

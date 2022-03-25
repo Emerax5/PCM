@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.DTO.DTOModels;
 
@@ -18,6 +19,8 @@ namespace PCM.UI.Pages
         PatientServices patientServices = new PatientServices();
         MedicineServices medicineServices = new MedicineServices();
         IndicationServices indicationServices = new IndicationServices();
+        LogServices logServices = new LogServices();
+
         public Prescription CurrentPrescription { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }

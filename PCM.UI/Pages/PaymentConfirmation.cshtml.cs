@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.DTO.DTOModels;
 
@@ -16,6 +17,8 @@ namespace PCM.UI.Pages
     {
 
         PaymentServices paymentServices = new PaymentServices();
+        LogServices logServices = new LogServices();
+
 
         public Payment payment { get; set; }
 

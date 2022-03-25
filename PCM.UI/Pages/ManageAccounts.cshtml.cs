@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PCM.Core.AdminTools;
 using PCM.Core.CommunSevices;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
@@ -20,6 +21,8 @@ namespace PCM.UI.Pages
         UserServices userServices = new UserServices();
         User dbUser = new User();
         ErrorMesseges Error = new ErrorMesseges();
+        LogServices logServices = new LogServices();
+
         public List<User> Users { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }

@@ -18,6 +18,7 @@ using static PCM.Core.CommunSevices.CommunServices;
 using Microsoft.AspNetCore.Authorization;
 using System.Drawing;
 using System.Threading;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Pages
 {
@@ -28,6 +29,8 @@ namespace PCM.UI.Pages
 
         PatientServices patientServices = new PatientServices();
         ARSServices aRSServices = new ARSServices();
+        LogServices logServices = new LogServices();
+
 
         [BindProperty]
         public InputModel Input { get; set; }

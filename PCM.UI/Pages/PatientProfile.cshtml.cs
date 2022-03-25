@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Authorization;
 using PCM.Core.Users;
+using PCM.Core.AdminTools;
 
 namespace PCM.UI.Pages
 {
@@ -25,6 +26,8 @@ namespace PCM.UI.Pages
         UserServices userServices = new UserServices();
         PrescriptionServices prescriptionServices = new PrescriptionServices();
         IndicationServices IndicationServices = new IndicationServices();
+        LogServices logServices = new LogServices();
+
 
         public List<PatientDocumentInfo> DocInfoList { get; set; } = new List<PatientDocumentInfo>();
         public List<Appointment> ApmtList { get; set; } = new List<Appointment>();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.DTO.DTOModels;
 
@@ -17,6 +18,8 @@ namespace PCM.UI.Pages
         AppointmentServices appointmentServices = new AppointmentServices();
         PaymentServices paymentServices = new PaymentServices();
         PatientServices patientServices = new PatientServices();
+        LogServices logServices = new LogServices();
+
 
         public Appointment appointment { get; set; }
         public Patient patient { get; set; }

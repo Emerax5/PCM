@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Patients;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
@@ -20,6 +21,7 @@ namespace PCM.UI.Pages
         PrescriptionServices prescriptionServices = new PrescriptionServices();
         IndicationServices indicationServices = new IndicationServices();
         PatientServices patientServices = new PatientServices();
+        LogServices logServices = new LogServices();
         CultureInfo es = new CultureInfo("es-ES");
 
         public Entity CurrentEntity { get; set; }

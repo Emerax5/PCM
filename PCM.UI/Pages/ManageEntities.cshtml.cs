@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MongoDB.Bson;
+using PCM.Core.AdminTools;
 using PCM.Core.Users;
 using PCM.DTO.DTOModels;
 
@@ -17,6 +18,8 @@ namespace PCM.UI.Pages
     {
         UserServices userServices = new UserServices();
         EntityServices entityServices = new EntityServices();
+        LogServices logServices = new LogServices();
+
 
         [BindProperty]
         public InputModel Input { get; set; }
