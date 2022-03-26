@@ -31,7 +31,7 @@ namespace PCM.UI.Pages
         [BindProperty]
         public int Pages { get; set; }
         [BindProperty]
-        public int CurentPage { get; set; }
+        public int CurrentPage { get; set; }
         [BindProperty]
         public int PrevPage { get; set; }
         [BindProperty]
@@ -66,7 +66,7 @@ namespace PCM.UI.Pages
 
             ResultsCount = Patients.Count();
 
-            logServices.Log(string.Format("User {0} searched patien name :{1} on the search patient page", User.Identity.Name,name));
+            logServices.Log(string.Format("User {0} searched patient name :{1} on the search patient page", User.Identity.Name,name));
 
             return Page();
         
@@ -78,7 +78,7 @@ namespace PCM.UI.Pages
 
             ResultsCount = Patients.Count();
 
-            logServices.Log(string.Format("User {0} searched patient persoanl id :{1} on the search patient page", User.Identity.Name,Input.FindRequest));
+            logServices.Log(string.Format("User {0} searched patient personal id :{1} on the search patient page", User.Identity.Name,Input.FindRequest));
 
             return Page();
 
@@ -92,17 +92,17 @@ namespace PCM.UI.Pages
 
             if (pageNumber == 0) pageNumber = 1;
 
-            CurentPage = pageNumber;
+            CurrentPage = pageNumber;
 
-            Patients = dbPatientList.GetPatientsWithPaging(pageSize, CurentPage);
+            Patients = dbPatientList.GetPatientsWithPaging(pageSize, CurrentPage);
 
-            PrevPage = CurentPage - 1;
+            PrevPage = CurrentPage - 1;
 
-            NextPage = CurentPage + 1;
+            NextPage = CurrentPage + 1;
            
             ResultsCount = dbPatientList.GetAllPatientsCount();
 
-            if (CurentPage == 1) logServices.Log(string.Format("User {0} requested a full list of all patients at the search patient page", User.Identity.Name));
+            if (CurrentPage == 1) logServices.Log(string.Format("User {0} requested a full list of all patients at the search patient page", User.Identity.Name));
 
             return Page();
 

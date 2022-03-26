@@ -76,7 +76,7 @@ namespace PCM.UI.Pages
 
             appointmentServices.Reschedule(id, hour, DateTime.Parse(date), User.Identity.Name );
 
-            logServices.Log(string.Format("User {0} edited date for appointment ID: {1} to {2} ", User.Identity.Name,ApmtId, date));
+            logServices.Log(string.Format("User {0} changed date for appointment ID: {1} to {2} ", User.Identity.Name,ApmtId, date));
 
             return RedirectToPage("./Appointment", new { ID = ApmtId });
         }

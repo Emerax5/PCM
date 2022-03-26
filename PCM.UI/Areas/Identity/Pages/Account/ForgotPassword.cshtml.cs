@@ -52,7 +52,9 @@ namespace PCM.UI.Areas.Identity.Pages.Account
                 }
                 
             }
+
             logServices.Log("User not found to change password, User:" + Input.User.Trim());
+
             ModelState.TryAddModelError(String.Empty, error.UserNotFound);
 
             return Page();
