@@ -18,6 +18,10 @@ namespace PCM.DTO.DTOModels
         public string SecurityAnswer { get; set; }
         [Display(Name = "Rol")]
         public Role Role { get; set; }
+
+        public class Identity
+        {
+        }
     }
     public enum Role
     {

@@ -67,6 +67,7 @@ namespace PCM.UI.Pages
         public void OnGet()
         {
             AllARS = aRSServices.GetAllARS();
+            logServices.Log(string.Format("User {0} accessed the patient creation page",User.Identity.Name));
         }
 
         public IActionResult OnPost()
@@ -150,6 +151,8 @@ namespace PCM.UI.Pages
                 
 
                 patientServices.AddPatient(dbPatient);
+                logServices.Log(string.Format("User {0} added patient {1}", User.Identity.Name,dbPatient.FullName));
+
 
                 return RedirectToPage("./InsertPatienConfirmation");
                 

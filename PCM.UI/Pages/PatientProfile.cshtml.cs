@@ -127,9 +127,10 @@ namespace PCM.UI.Pages
 
             }
 
-          
+            logServices.Log(string.Format("User {0} accessed patient ID: {1}", User.Identity.Name,Id));
+
         }
-        
+
         public IActionResult OnPostDelete(string id)
         {
             ObjectId patienId = ObjectId.Parse(id);
@@ -177,6 +178,8 @@ namespace PCM.UI.Pages
 
             }
 
+            logServices.Log(string.Format("User {0} deleted patient", User.Identity.Name));
+
             return null;
 
         }
@@ -186,6 +189,8 @@ namespace PCM.UI.Pages
             ObjectId patienId = ObjectId.Parse(id);
             
             patientServices.UpsertNotes(patienId, AlegiesInProfile, User.Identity.Name);
+
+            logServices.Log(string.Format("User {0} updated note for patien ID: {1}", User.Identity.Name,id));
 
             return RedirectToPage("./PatientProfile", new { ID = id });
         }
@@ -209,10 +214,14 @@ namespace PCM.UI.Pages
 
                 patientServices.SavePatientDocument(fileBytes, id,Input.file.FileName);
 
+                logServices.Log(string.Format("User {0} added file for patient ID: {1}", User.Identity.Name,id));
+
                 return RedirectToPage("./PatientProfile", new { ID = id });
             }
             else
             {
+                logServices.Log(string.Format("User {0} attempt to add file failed for patient ID: {1}", User.Identity.Name,id));
+
                 ModelState.AddModelError(string.Empty, "Verifique e intente de nuevo.");
                 return Page();
 
@@ -230,13 +239,17 @@ namespace PCM.UI.Pages
 
             if (contentType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
             {
+                logServices.Log(string.Format("User {0} accessed document ID: {1}", User.Identity.Name, DocId));
                 return File(bytes, contentType, FileName);
 
             }
             else
             {
+                logServices.Log(string.Format("User {0} accessed document ID: {1}", User.Identity.Name, DocId));
                 return File(bytes, contentType);
             }
+
+
         }
 
         public IActionResult OnPostDeleteFile(string DocId,string id) 
@@ -244,6 +257,8 @@ namespace PCM.UI.Pages
             ObjectId DocumentoId = ObjectId.Parse(DocId);
 
             patientServices.DeletePatientFileById(DocumentoId);
+
+            logServices.Log(string.Format("User {0} deleted file ID: {1} for patient ID: {2}", User.Identity.Name, DocId,id));
 
             return RedirectToPage("./PatientProfile", new { ID = id });
 
@@ -254,6 +269,8 @@ namespace PCM.UI.Pages
             ObjectId id = ObjectId.Parse(ApmtId);
 
             appointmentServices.DeleteAppointmentsById(id);
+
+            logServices.Log(string.Format("User {0} deleted appointment ID: {1} for patient ID: {2}", User.Identity.Name, ApmtId,Id));
 
             return RedirectToPage("./PatientProfile", new { ID = Id });
 

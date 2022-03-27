@@ -53,11 +53,15 @@ namespace PCM.UI.Pages
                     OnPostSelect(Name);
                 }
 
+                logServices.Log(string.Format("User {0} accessed the manage account page", User.Identity.Name));
+
                 return Page();
                
             }
             else
             {
+
+                logServices.Log(string.Format("User {0} attempted to manage user accounts", User.Identity.Name));
                 return RedirectToPage("./NotAllowed");
 
             }            
@@ -76,6 +80,7 @@ namespace PCM.UI.Pages
             var result = await _userManager.ResetPasswordAsync(user, resetToken, Input.Password.Trim());
             if (result.Succeeded)
             {
+                logServices.Log(string.Format("User {0} changed {1} password", User.Identity.Name,userName));
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
@@ -90,9 +95,8 @@ namespace PCM.UI.Pages
 
         public void OnPostSelect(string Name)
         {
-            ModUser = userServices.GetUserByUserName(Name);
-        
-        
+            logServices.Log(string.Format("User {0} selected account:{1} at the manage accounts page", User.Identity.Name, Name));
+            ModUser = userServices.GetUserByUserName(Name);   
         
         }
     }

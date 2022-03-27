@@ -44,6 +44,9 @@ namespace PCM.UI.Pages
             appointment = appointmentServices.GetAppointmentsById(ObjectId.Parse(Id));
 
             patient = patientServices.GetPatienByID(ObjectId.Parse(appointment.PatientId));
+
+            logServices.Log(string.Format("User {0} accessed payment page for appointment ID: {1}, patient ID: {2}", User.Identity.Name,Id,patient.Id));
+
         }
 
         public IActionResult OnPostPay(string Id) 
@@ -89,9 +92,9 @@ namespace PCM.UI.Pages
 
             }
 
-            return RedirectToPage("./PaymentConfirmation", new { AppointmentId = appointment.Id });
+            logServices.Log(string.Format("User {0} processed payment for appointment ID: {1}, Patient ID: {2}  ", User.Identity.Name,Id,patient.Id));
 
-            
+            return RedirectToPage("./PaymentConfirmation", new { AppointmentId = appointment.Id });            
 
         }
 

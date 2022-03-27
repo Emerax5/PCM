@@ -63,6 +63,9 @@ namespace PCM.UI.Pages
                 Indications = indicationServices.GetIndicationsByPrescriptionId(pID);
             }
 
+            logServices.Log(string.Format("User {0} accessed precription ID: {1}, for patient ID: {2} ", User.Identity.Name,pID,CurrentPrescription.PatientId));
+
+
         }
 
         public IActionResult OnPostDelete(string pID) 
@@ -81,6 +84,8 @@ namespace PCM.UI.Pages
 
             prescriptionServices.RemovePrescriptionById(ObjectId.Parse(pID));
 
+            logServices.Log(string.Format("User {0} deleted prescription for patient ID: {1} ", User.Identity.Name,CurrentPrescription.PatientId));
+
             return RedirectToPage("./MedicalHistory", new { Id = PatientId });
         }
         public IActionResult OnPostAdd(string pID) 
@@ -94,6 +99,8 @@ namespace PCM.UI.Pages
 
             indicationServices.AddIndication(newIndication);
 
+            logServices.Log(string.Format("User {0} added prescription for prescription ID: {1}", User.Identity.Name,pID));
+
             return RedirectToPage("./Prescribe", new { pID = pID });
         }
         public IActionResult OnPostDeleteIndication(string IndId) 
@@ -104,6 +111,8 @@ namespace PCM.UI.Pages
             CurrentPrescription = prescriptionServices.GetPrescriptionById(ObjectId.Parse(curentInd.PrescriptionId));
 
             indicationServices.RemoveIndicationById(ObjectId.Parse(IndId));
+
+            logServices.Log(string.Format("User {0} deleted indication from prescription ID: {1}", User.Identity.Name, CurrentPrescription.Id));
 
             return RedirectToPage("./Prescribe", new { pID = CurrentPrescription.Id });
         }

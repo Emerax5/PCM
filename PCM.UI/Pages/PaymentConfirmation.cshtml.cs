@@ -43,6 +43,8 @@ namespace PCM.UI.Pages
 
             paymentServices.DeletePaymentById(ObjectId.Parse(Id));
 
+            logServices.Log(string.Format("User {0} cancelled payment for ID: {1}, Patient ID:{2}", User.Identity.Name,Id,payment.PatientId));
+
             return RedirectToPage("./Appointment", new { Id = payment.AppointmentId });
         }
     }

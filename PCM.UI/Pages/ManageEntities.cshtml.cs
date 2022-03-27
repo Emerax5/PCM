@@ -50,13 +50,15 @@ namespace PCM.UI.Pages
                     CurrentEntity = entityServices.FindEntityByIdentifier();
                     img = await getImg();
                 }
-                
-               
+
+                logServices.Log(string.Format("User {0} accessed the manage entities page", User.Identity.Name));
                 return Page();
 
             }
             else
             {
+                logServices.Log(string.Format("User {0} attempted to access the manage entities page", User.Identity.Name));
+
                 return RedirectToPage("./NotAllowed");
 
             }
@@ -111,12 +113,17 @@ namespace PCM.UI.Pages
 
                 entityServices.AddEntity(newEntity);
             }
+
+            logServices.Log(string.Format("User {0} added entity", User.Identity.Name));
+
             return RedirectToPage("./ManageEntities");
         }
 
         public IActionResult OnPostDelete(string Id) 
         {
             entityServices.DeleteEntityById(ObjectId.Parse(Id));
+
+            logServices.Log(string.Format("User {0} deleted entity", User.Identity.Name));
 
             return RedirectToPage("./ManageEntities");
 

@@ -65,6 +65,9 @@ namespace PCM.UI.Pages
 
             Age = (zeroTime + span).Year - 1;
 
+            logServices.Log(string.Format("User {0} prescription ID: {1} ", User.Identity.Name,pID));
+
+
         }
         public async Task<string> getImg()
         {
@@ -72,5 +75,7 @@ namespace PCM.UI.Pages
 
             return photo;
         }
+
+
     }
 }

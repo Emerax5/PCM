@@ -54,6 +54,7 @@ namespace PCM.UI.Pages
 
             AppointmentsForTheDay = appointmentServices.GetAppointmentsByDate(AppointmentDate);
 
+            logServices.Log(string.Format("User {0} accessed appointment creation for patient id: {1}", User.Identity.Name,Id));
 
         }
 
@@ -86,6 +87,8 @@ namespace PCM.UI.Pages
                 appointment.Id = ObjectId.GenerateNewId();
 
                 appointmentServices.AddAppointment(appointment);
+
+                logServices.Log(string.Format("User {0} added appointment for patient ID: {1}", User.Identity.Name,Id));
 
                 return RedirectToPage("./AppointmentConfirmation", new { Id = appointment.Id });
 

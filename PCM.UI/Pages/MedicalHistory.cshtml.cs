@@ -61,11 +61,15 @@ namespace PCM.UI.Pages
 
                 EntryDates = Dates;
 
+                logServices.Log(string.Format("User {0} accessed patient medical history, Patient ID: {1}", User.Identity.Name,Id));
+
+
                 return Page();
 
             }
             else
             {
+                logServices.Log(string.Format("User {0} attempted to access medical history for patient id: {1}", User.Identity.Name,Id));
                 return RedirectToPage("./NotAllowed");
 
             }
@@ -84,6 +88,9 @@ namespace PCM.UI.Pages
 
             medicalEntryServices.AddEntry(newEntry);
 
+            logServices.Log(string.Format("User {0} added history entry for ID: {1}", User.Identity.Name,Id));
+
+
             return RedirectToPage("./MedicalHistory", new { ID = Id });
         }
 
@@ -91,6 +98,8 @@ namespace PCM.UI.Pages
         {
             ObjectId entryId = ObjectId.Parse(EntryId);
             medicalEntryServices.DeleteMedicaEntryById(entryId);
+
+            logServices.Log(string.Format("User {0} deleted medical entry for ID: {1}", User.Identity.Name,Id));
 
             return RedirectToPage("./MedicalHistory", new { ID = Id });
         }
