@@ -65,7 +65,7 @@ namespace PCM.UI.Pages
 
             Age = (zeroTime + span).Year - 1;
 
-            logServices.Log(string.Format("User {0} prescription ID: {1} ", User.Identity.Name,pID));
+            logServices.Log(string.Format("User {0} accessed prescription ID: {1} ", User.Identity.Name,pID));
 
 
         }
