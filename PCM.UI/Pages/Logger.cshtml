@@ -1,0 +1,63 @@
+﻿@page
+@model PCM.UI.Pages.LoggerModel
+@{
+    ViewData["Title"] = "Logger";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+<div class="container">
+    <div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <form method="post">
+                <label>Favor introduzca la fecha.</label>
+                <input style="width:300px" class="form-control" type="date" asp-for="@Model.Date">
+                <button type="submit" asp-route-Date="@Model.Date" class="btn btn-primary text-white mt-1"><img src="~/Icons/event-white-18dp.svg" alt="Search" /> Buscar Fecha</button>
+            </form>
+        </div>
+        <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+            <div class="row">
+                <div class="container">
+
+                    @if (Model.LogForTheDay.Count > 0)
+                    {
+                        <table class="table table-borderless table-sm table-dark">
+                         
+                            <tbody>
+                                @foreach (var log in Model.LogForTheDay)                             
+                                {
+                                <tr>
+                                    @if (log.Type == DTO.DTOModels.LogType.error)
+                                    {
+                                        <td style="font-size:small; color:red">@log.ExactTime.ToLocalTime().ToShortTimeString()</td>
+                                        <td style="font-size:small; color:red">@log.Message</td>
+                                        <td style="font-size:small; color:red">@log.ErrorMessage</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="font-size:small; color:limegreen">@log.ExactTime.ToLocalTime().ToShortTimeString()</td>
+                                        <td style="font-size:small; color:limegreen">@log.Message</td>
+                                        <td style="font-size:small; color:limegreen">@log.ErrorMessage</td>
+                                    }
+
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    }
+                    else
+                    {
+                        <div class="container text-center">
+                            <h1 class="mt-2 mb-2">No Log</h1>
+
+                            <img src="~/Images/NotFound.png" alt="" height="250" />
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

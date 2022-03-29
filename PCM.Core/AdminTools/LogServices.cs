@@ -16,7 +16,9 @@ namespace PCM.Core.AdminTools
 
             Entry.Message = Message;
 
-            Entry.Time = DateTime.Now;
+            Entry.Date = DateTime.Today.ToLocalTime();
+
+            Entry.ExactTime = DateTime.Now;
 
             LogCRUD db = new LogCRUD(appDataBase);
 
@@ -26,7 +28,9 @@ namespace PCM.Core.AdminTools
         {
             var Entry = new LogEntry();
 
-            Entry.Time = DateTime.Now;
+            Entry.Date = DateTime.Today.ToLocalTime();
+
+            Entry.ExactTime = DateTime.Now;
 
             Entry.Message = Message;
 
@@ -37,6 +41,16 @@ namespace PCM.Core.AdminTools
             LogCRUD db = new LogCRUD(appDataBase);
 
             db.InsertLog(Collection, Entry);
+        }
+        public List<LogEntry> GetLogsByDate(DateTime day)
+        {
+
+
+            LogCRUD db = new LogCRUD(appDataBase);
+
+
+            return db.LoadLogsByDate<LogEntry>(Collection, day);
+
         }
     }
 }

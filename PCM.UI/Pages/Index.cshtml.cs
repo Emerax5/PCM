@@ -30,7 +30,16 @@ namespace PCM.UI.Pages
 
         public void OnGet()
         {
-            UserCount = userServices.UserCount();
+            try
+            {
+                UserCount = userServices.UserCount();
+
+            }
+            catch (Exception e)
+            {
+                string error = e.Message.ToString();
+                throw;
+            }
 
             if (User.Identity.Name != null)
             {

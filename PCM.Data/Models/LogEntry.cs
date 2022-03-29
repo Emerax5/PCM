@@ -13,7 +13,8 @@ namespace PCM.Data.Models
         public string Message { get; set; }
         public string ErrorMessage { get; set; }
         public LogType Type { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime ExactTime { get; set; }
     }
     public enum LogType
     {

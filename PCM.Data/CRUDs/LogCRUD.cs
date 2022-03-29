@@ -26,5 +26,13 @@ namespace PCM.Data.CRUDs
             collection.InsertOne(record);
 
         }
+        public List<T> LoadLogsByDate<T>(string table, DateTime day)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("Date", day);
+
+
+            return collection.Find(filter).ToList();
+        }
     }
 }
