@@ -1,0 +1,5 @@
+29/03/2022 4:35:58 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
+29/03/2022 4:36:12 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
+29/03/2022 4:36:14 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
+29/03/2022 4:36:15 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
+29/03/2022 4:36:16 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.

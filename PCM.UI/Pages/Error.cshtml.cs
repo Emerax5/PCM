@@ -11,8 +11,13 @@ using PCM.Core.AdminTools;
 namespace PCM.UI.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
     public class ErrorModel : PageModel
     {
+
+        LogServices logServices = new LogServices();
+
+        public string ErrorInfo { get; set; }
 
         public string RequestId { get; set; }
 
@@ -23,11 +28,25 @@ namespace PCM.UI.Pages
         public ErrorModel(ILogger<ErrorModel> logger)
         {
             _logger = logger;
+
         }
 
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+
+            try
+            {
+
+                logServices.Log(string.Format("General Error IP: {0} |", logServices.GetLocalIPAddress()),Activity.Current.OperationName);
+
+            }
+            catch (Exception e)
+            {
+
+                logServices.OfflineLog(string.Format("General Error IP: {0}", logServices.GetLocalIPAddress()),e.Message);
+
+            }
 
 
         }

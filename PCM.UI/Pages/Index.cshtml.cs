@@ -28,24 +28,32 @@ namespace PCM.UI.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             try
             {
                 UserCount = userServices.UserCount();
 
+                if (User.Identity.Name != null)
+                {
+
+                    user = userServices.GetUserByUserName(User.Identity.Name);
+
+                }
+
+                return Page();
+
             }
             catch (Exception e)
             {
                 string error = e.Message.ToString();
-                throw;
+
+                logServices.OfflineLog("Connection error to the mongodb data base while looking for the User count. System Error:",error);
+
+                return RedirectToPage("./ConnectionError");
             }
 
-            if (User.Identity.Name != null)
-            {
-                user = userServices.GetUserByUserName(User.Identity.Name);
-
-            }
+          
 
 
         }
