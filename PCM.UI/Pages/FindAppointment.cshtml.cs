@@ -59,7 +59,7 @@ namespace PCM.UI.Pages
                 }
 
             }
-            logServices.Log(string.Format("User {0} accessed appointment search for date: {1}",User.Identity.Name, Date));
+            logServices.Log(string.Format("User {0} accessed appointment search for date: {1}",User.Identity.Name, Date.ToShortDateString()));
         }
 
         public void OnPost() 
