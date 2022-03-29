@@ -41,6 +41,9 @@ namespace PCM.UI.Pages
 
                 }
 
+                logServices.Log(string.Format("ip {0} accessed the index page. {1}", logServices.GetLocalIPAddress(), User.Identity.Name));
+
+
                 return Page();
 
             }

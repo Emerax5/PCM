@@ -52,6 +52,8 @@ namespace PCM.UI.Pages
                 OnPostRequestAll(pageNumber);
             }
 
+            logServices.Log(string.Format("User {0} accessed the search patient page", User.Identity.Name));
+
         }
 
         public IActionResult OnPostRequestName()
