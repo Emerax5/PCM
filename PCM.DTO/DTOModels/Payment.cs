@@ -16,6 +16,7 @@ namespace PCM.DTO.DTOModels
         public string Description { get; set; }
         public string PatientId { get; set; }
         public DateTime EmitedTime { get; set; }
+        public DateTime EmitedDate { get; set; }
         public DateTime AppointmentDate { get; set; }
         public string EmitedBy { get; set; }
         public decimal InsuranceCoverage { get; set; }

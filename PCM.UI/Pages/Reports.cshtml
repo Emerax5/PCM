@@ -8,6 +8,7 @@
 </div>
 <div class="container">
     <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <form method="post">
             <div class="row">
                 <div class="col-lg-6, col-sm-12">
@@ -24,9 +25,9 @@
                     @if (Model.AllARS.Count != 0 || Model.AllARS == null)
                     {
                         <label>Seguro</label>
-                        <select asp-for="@Model.Insurance" class="form-control">
-                            <option value="Privado" selected class="text-muted">Elegir...</option>
-                            <option value="Privado">Privado</option>
+                        <select asp-for="@Model.InsuranceInput" class="form-control">
+                            <option value="All" selected class="text-muted">Elegir...</option>
+                            <option value="All">Todos</option>
                             @foreach (var ARS in Model.AllARS)
                             {
 
@@ -40,7 +41,33 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary text-white mt-1"><alt ="Generate" />Generar reporte</button>
+            <button type="submit" class="btn btn-primary text-white mt-1"><alt="Generate" />Generar reporte</button>
         </form>
-    </div>
+
+        @if (Model.Result.Count != 0)
+        {
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Paciente</th>
+                <th scope="col">Seguro</th>
+                <th scope="col">Pago total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.Result)
+            {
+                <tr>
+                    <td>@entry.PatientName</td>
+                    <td>@entry.Insurance</td>
+                    <td>@entry.PaymentAmount</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+        }
+    </div>    
 </div>

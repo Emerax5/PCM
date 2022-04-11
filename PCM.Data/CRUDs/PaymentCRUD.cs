@@ -124,6 +124,7 @@ namespace PCM.Data.CRUDs
 
             var collection = db.GetCollection<Payment>(table);
             var filter = Builders<Payment>.Filter.Eq("AppointmentId", Id);
+            
 
 
             if (collection.Find(filter).CountDocuments() <= 0)
@@ -135,6 +136,32 @@ namespace PCM.Data.CRUDs
                 return true;
             }
 
+        }
+        public List<Payment> PaymentReport(DateTime MinDate, DateTime MaxDate, string Insurance,string table) 
+        {
+
+            var collection = db.GetCollection<Payment>(table);
+
+            if (Insurance == "All" || Insurance == null)
+            {
+                var filter = Builders<Payment>.Filter.And(Builders<Payment>.Filter.Gte("EmitedDate", MinDate), Builders<Payment>.Filter.Lte("EmitedDate", MaxDate));
+
+                return collection.Find(filter).ToList();
+
+            }
+            else
+            {
+
+                var filter = Builders<Payment>.Filter.And(
+                    Builders<Payment>.Filter.Gte("EmitedDate", MinDate), 
+                    Builders<Payment>.Filter.Lte("EmitedDate", MaxDate), 
+                    Builders<Payment>.Filter.Eq("Insurance", Insurance));
+
+                return collection.Find(filter).ToList();
+
+            }
+
+        
         }
     }
 }

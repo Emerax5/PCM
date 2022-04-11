@@ -77,6 +77,7 @@ namespace PCM.UI.Pages
             newPayment.TotalPayment = apmtPrice - insCover;
             newPayment.EmitedBy = User.Identity.Name;
             newPayment.EmitedTime = DateTime.Now;
+            newPayment.EmitedDate = DateTime.Today;
             newPayment.PatientName = patient.FullName;
             newPayment.PatientAddress = patient.Address;
             newPayment.Insurance = patient.Insurance;
