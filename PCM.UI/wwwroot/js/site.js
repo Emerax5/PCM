@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $('#phone').mask('(000) 000-0000');
 
-    $('#money').mask("000,000.00", { reverse: true });
+    $('#money1').mask("000,000.00", { reverse: true });
 
     $('#money2').mask("000,000.00", { reverse: true });
 
@@ -17,4 +17,19 @@ $(document).ready(function () {
 
 });
 
+function formatCurrency(selector) {
+    document.querySelectorAll(selector).forEach(function (elem) {
+        var amt = elem.textContent.replace("$", "");
+        if (amt && amt.split(".").length <= 2) {
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            });
+            amt = formatter.format(amt);
+        }
+        elem.textContent = amt;
+    })
+}
 
+formatCurrency("#money")

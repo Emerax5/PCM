@@ -53,7 +53,7 @@ namespace PCM.UI.Pages
                 }
             }
 
-            logServices.Log(string.Format("User {0} accessd invoice id: {1}", User.Identity.Name,Payment.Id));
+            logServices.Log(string.Format("User {0} accessd invoice #: {1}", User.Identity.Name,Payment.ReceiptNumber));
 
 
         }

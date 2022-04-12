@@ -3,29 +3,29 @@
 @{
     ViewData["Title"] = "Reportes";
 }
-<div class="container text-center">
+<div class="container text-center d-print-none">
     <h3 class="text-white">@ViewData["Title"]</h3>
 </div>
 <div class="container">
     <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <form method="post">
+        <form class="d-print-none" method="post">
             <div class="row">
                 <div class="col-lg-6, col-sm-12">
-                    <label>Fechas inicial.</label>
-                    <input style="width:300px" class="form-control" type="date" asp-for="@Model.Date1">
+                    <label class="mt-2 mb-0">Fechas inicial.</label>
+                    <input style="width:300px" class="form-control mt-0" type="date" asp-for="@Model.Date1">
                 </div>
                 <div class="col-lg-6, col-sm-12">
-                    <label>Fechas final.</label>
-                    <input style="width:300px" class="form-control" type="date" asp-for="@Model.Date2">
+                    <label class="mt-2 mb-0">Fechas final.</label>
+                    <input style="width:300px" class="form-control mt-0" type="date" asp-for="@Model.Date2">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">
                     @if (Model.AllARS.Count != 0 || Model.AllARS == null)
                     {
-                        <label>Seguro</label>
-                        <select asp-for="@Model.InsuranceInput" class="form-control">
+                        <label class="mt-2 mb-0">Seguro</label>
+                        <select asp-for="@Model.InsuranceInput" class="form-control mt-0 mb-2">
                             <option value="All" selected class="text-muted">Elegir...</option>
                             <option value="All">Todos</option>
                             @foreach (var ARS in Model.AllARS)
@@ -41,32 +41,69 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary text-white mt-1"><alt="Generate" />Generar reporte</button>
+            <button type="submit" class="btn btn-primary text-white mt-3 mb-3"><alt ="submit" />Generar reporte</button>
         </form>
 
         @if (Model.Result.Count != 0)
         {
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Paciente</th>
-                <th scope="col">Seguro</th>
-                <th scope="col">Pago total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var entry in Model.Result)
+            <div class="container">
+                <div class=" text-right mt-3">
+                    <button id="printPageButton" onclick="window.print();return false;" href="#" class="btn btn-primary"><i class="fa fa-print mr5"></i><img src="~/Icons/print_white_24dp.svg" alt="Print" /></button>
+                </div>
+            </div>
+            if (Model.EntityCount > 0)
             {
-                <tr>
-                    <td>@entry.PatientName</td>
-                    <td>@entry.Insurance</td>
-                    <td>@entry.PaymentAmount</td>
-                </tr>
-
+                <div class="row">
+                    <!-- Start .row -->
+                    <div class="col-lg-6">
+                        <!-- col-lg-6 start here -->
+                        <div class="invoice-logo"><img height="100" src="~/Images/Loader.gif" onload="this.onload=null;src='data:image/webp;base64,@Model.img';" alt="Invoice logo"></div>
+                    </div>
+                    <!-- col-lg-6 end here -->
+                    <div class="col-lg-6">
+                        <!-- col-lg-6 start here -->
+                        <div class="invoice-from mt-1">
+                            <ul class="list-unstyled text-right">
+                                <li>@Model.CurrentEntity.EntityName</li>
+                                <li>@Model.CurrentEntity.Location</li>
+                                <li>@Model.CurrentEntity.PhoneNumber</li>
+                                <li>@Model.CurrentEntity.DoctorName</li>
+                                <li>@Model.CurrentEntity.Specialty</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- col-lg-6 end here -->
+                </div>
             }
-        </tbody>
-    </table>
+
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr style="border: 2px solid #050042; border-radius: 3px !important;">
+                        <th scope="col">Factura #</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Seguro</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Cobertura</th>
+                        <th scope="col">Pago total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.Result)
+                    {
+                        <tr style="border: 2px solid #050042; border-radius: 3px !important;">
+                            <td style="font-size:small">@entry.InvoiceNumber</td>
+                            <td style="font-size:small">@entry.PatientName</td>
+                            <td style="font-size:small">@entry.Insurance</td>
+                            <td style="font-size:small">@entry.DateTime.ToLocalTime()</td>
+                            <td style="font-size:small"><label id="money">$@entry.ApmtPrice.ToString()</label></td>
+                            <td style="font-size:small"><label id="money">$@entry.InsuranceCoverage.ToString()</label></td>
+                            <td style="font-size:small"><label id="money">$@entry.PaymentAmount.ToString()</label></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
 
         }
     </div>    

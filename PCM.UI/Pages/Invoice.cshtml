@@ -80,16 +80,16 @@
                                             <tbody>
                                                 <tr>
                                                     <td>@Model.Payment.Description (@Model.Payment.AppointmentDate.ToShortDateString())</td>
-                                                    <td class="text-center">$<label id="money">@Model.Payment.AppointmentPrice</label> DOP</td>
+                                                    <td class="text-center"><label id="money">@Model.Payment.AppointmentPrice</label> DOP</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Seguro: @Model.Payment.Insurance | Poliza/Carnet: @Model.Payment.InsuranceCardnet</td>
-                                                    <td class="text-center">$<label id="money2">@Model.Payment.InsuranceCoverage</label> DOP</td>
+                                                    <td class="text-center"><label id="money">@Model.Payment.InsuranceCoverage</label> DOP</td>
                                                 </tr>
                                             </tbody>
                                             <tr>
                                                 <th class="text-right">Total pago paciente:</th>
-                                                <th class="text-center">$<label id="money3">@Model.Payment.TotalPayment</label> DOP</th>
+                                                <th class="text-center"><label id="money">@Model.Payment.TotalPayment</label> DOP</th>
                                             </tr>
                                         </table>
                                     </div>

@@ -28,6 +28,11 @@ namespace PCM.UI.Pages
         public string InsuranceInput { get; set; }
         public List<ARS> AllARS { get; set; }
         public List<ReportEntry> Result { get; set; }
+        public Entity CurrentEntity { get; set; }
+        public int EntityCount { get; set; }
+        public string img { get; set; }
+
+
 
         public class ReportEntry
         {
@@ -39,7 +44,6 @@ namespace PCM.UI.Pages
             public DateTime DateTime { get; set; }
             public decimal InsuranceCoverage { get; set; }
             public decimal ApmtPrice { get; set; }
-            public decimal ApmtCost { get; set; }
 
         }
 
@@ -54,7 +58,7 @@ namespace PCM.UI.Pages
 
         }
 
-        public IActionResult OnPost() 
+        public async Task<IActionResult> OnPostAsync() 
         {
 
             AllARS = ARSServices.GetAllARS();
@@ -63,10 +67,12 @@ namespace PCM.UI.Pages
 
             if (ModelState.IsValid)
             {
-                if (Date1 > Date2 || (Date1 > DateTime.Today & Date2 > DateTime.Today))
+                if (Date1 > Date2 || Date1 > DateTime.Today || Date2 > DateTime.Today)
                 {
 
-                    ModelState.AddModelError(string.Empty,"Fecha invalida, verifique que fecha inicial no sea mayor que la final o que no sea futura.");
+                    ModelState.AddModelError(string.Empty,"Fecha invalida, verifique que fecha inicial no sea mayor que la final o que no sea fecha futura.");
+                    logServices.Log(string.Format("User {0} searched invalid date", User.Identity.Name));
+
                     return Page();
 
                 }
@@ -75,9 +81,23 @@ namespace PCM.UI.Pages
 
                 if (dbPayments.Count <= 0)
                 {
-                    ModelState.AddModelError(string.Empty, "No hay reportes para esta fecha. ");
+                    ModelState.AddModelError(string.Empty, "No hay reportes para este rango fechas. ");
+
+                    logServices.Log(string.Format("User {0} searched for date range {1} & {2} with no result", User.Identity.Name,Date1.ToShortDateString(),Date2.ToShortDateString()));
+
                     return Page();
                 }
+                //Entity information 
+
+                EntityCount = entityServices.CheckForEntity();
+
+                if (EntityCount > 0)
+                {
+                    CurrentEntity = entityServices.FindEntityByIdentifier();
+                    img = await getImg();
+                }
+
+                //End entity information
 
                 foreach (var dbPayment in dbPayments)
                 {
@@ -94,15 +114,22 @@ namespace PCM.UI.Pages
                     entry.InsuranceCoverage = dbPayment.InsuranceCoverage;
                     entry.ApmtPrice = dbPayment.AppointmentPrice;
 
-                    Result.Add(entry);                    
+                    Result.Add(entry);
 
                 }
 
+                logServices.Log(string.Format("User {0} searched for date range {1} & {2}", User.Identity.Name, Date1.ToShortDateString(), Date2.ToShortDateString()));
 
             }
 
             return null;        
         
+        }
+        public async Task<string> getImg()
+        {
+            string photo = await Task.Run(() => Convert.ToBase64String(CurrentEntity.Logo));
+
+            return photo;
         }
     }
 }
