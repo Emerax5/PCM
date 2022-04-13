@@ -38,6 +38,7 @@ namespace PCM.UI.Pages
         {
             public string PatientName { get; set; }
             public string Insurance { get; set; }
+            public string InsuranceNumber { get; set; }
             public string PaymentId { get; set; }
             public decimal PaymentAmount { get; set; }
             public string InvoiceNumber { get; set; }
@@ -113,6 +114,7 @@ namespace PCM.UI.Pages
                     entry.DateTime = dbPayment.EmitedTime;
                     entry.InsuranceCoverage = dbPayment.InsuranceCoverage;
                     entry.ApmtPrice = dbPayment.AppointmentPrice;
+                    entry.InsuranceNumber = dbPayment.InsuranceCardnet;
 
                     Result.Add(entry);
 

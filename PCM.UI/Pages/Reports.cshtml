@@ -46,7 +46,7 @@
 
         @if (Model.Result.Count != 0)
         {
-            <div class="container">
+            <div class="container d-print-none">
                 <div class=" text-right mt-3">
                     <button id="printPageButton" onclick="window.print();return false;" href="#" class="btn btn-primary"><i class="fa fa-print mr5"></i><img src="~/Icons/print_white_24dp.svg" alt="Print" /></button>
                 </div>
@@ -94,7 +94,7 @@
                         <tr style="border: 2px solid #050042; border-radius: 3px !important;">
                             <td style="font-size:small">@entry.InvoiceNumber</td>
                             <td style="font-size:small">@entry.PatientName</td>
-                            <td style="font-size:small">@entry.Insurance</td>
+                            <td style="font-size:small">@entry.Insurance/@entry.InsuranceNumber</td>
                             <td style="font-size:small">@entry.DateTime.ToLocalTime()</td>
                             <td style="font-size:small"><label id="money">$@entry.ApmtPrice.ToString()</label></td>
                             <td style="font-size:small"><label id="money">$@entry.InsuranceCoverage.ToString()</label></td>
