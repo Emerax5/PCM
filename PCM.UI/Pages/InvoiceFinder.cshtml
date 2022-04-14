@@ -1,0 +1,55 @@
+﻿@page
+@model PCM.UI.Pages.InvoiceFinderModel
+@{
+    ViewData["Title"] = "Buscar recibo";
+}
+<div class="container text-center">
+    <h3 class="text-white">@ViewData["Title"]</h3>
+</div>
+<div class="container">
+    <div style="background: #fff; padding: 30px; border-radius: 10px; margin-top: 5px; width:100%">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form class="d-print-none" method="post">
+            <div class="row">
+                <div class="col-lg-6, col-sm-12">
+                    <label class="mt-2 mb-0">Favor introducir numero de factura.</label>
+                    <input id="invoice" style="width:200px" class="form-control mt-0" asp-for="@Model.SearchInput" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary text-white mt-3 mb-3"><alt ="submit" /><img src="~/Icons/search-white-18dp.svg" alt="search" /> Buscar</button>
+        </form>
+        @if (Model.Result.Count != 0)
+        {
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Factura #</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Pago Total</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model.Result)
+                    {
+                    <tr>
+                        <td style="font-size:small">@payment.ReceiptNumber</td>
+                        <td style="font-size:small">@payment.PatientName</td>
+                        <td style="font-size:small">@payment.PatientPhone</td>
+                        <td style="font-size:small"><label id="money">$@payment.TotalPayment.ToString()</label></td>
+                        <td>
+                            <a class="btn btn-info btn-sm" asp-page="/PatientProfile" asp-route-Id="@payment.PatientId"><img src="~/Icons/account_circle-white-18dp.svg" alt="Patient" /></a>
+                            <a class="btn btn-success btn-sm" asp-page="Appointment" asp-route-Id="@payment.AppointmentId"><img src="~/Icons/event-white-18dp.svg" alt="open" /></a>
+                            <a target="_blank" class="btn btn-info btn-sm" asp-page="/Invoice" asp-route-Id="@payment.AppointmentId"><img src="~/Icons/receipt_white_18dp.svg" alt="reschedule" /></a>
+
+                        </td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

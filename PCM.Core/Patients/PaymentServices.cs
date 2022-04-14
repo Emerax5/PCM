@@ -138,6 +138,30 @@ namespace PCM.Core.Patients
             return reportList;          
 
         }
-       
+        public List<DTO.DTOModels.Payment>GetPaymentsByInvoiceNumber(string InvoiceNumber)
+        {
+            var db = new PaymentCRUD(appDataBase);
+
+            var paymentList = new List<DTO.DTOModels.Payment>();
+
+            var dbListPayment = db.LoadPaymentsByInvoiceNumber<Data.Models.Payment>(Collection, InvoiceNumber);
+
+            foreach (var payment in dbListPayment)
+            {
+                paymentList.Add(new DTO.DTOModels.Payment
+                {
+                    PatientName = payment.PatientName,
+                    PatientId = payment.PatientId,
+                    PatientPhone = payment.PatientPhone,
+                    AppointmentId = payment.AppointmentId,
+                    ReceiptNumber = payment.ReceiptNumber,
+                    TotalPayment = payment.TotalPayment,
+                    Id = payment.Id,
+                });
+            }
+
+            return paymentList;
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using PCM.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PCM.Data.CRUDs
 {
@@ -162,6 +163,16 @@ namespace PCM.Data.CRUDs
             }
 
         
+        }
+        public List<Payment> LoadPaymentsByInvoiceNumber<T>(string table, string InvoiceNumber)
+        {
+            var collection = db.GetCollection<Payment>(table);
+
+            var regexFilter = "^" + Regex.Escape(InvoiceNumber);
+            var bsonRegex = new BsonRegularExpression(regexFilter);
+            var filter = Builders<Payment>.Filter.Regex("ReceiptNumber", bsonRegex);
+            return collection.Find(filter).SortBy(x => x.ReceiptNumber).ToList();
+
         }
     }
 }

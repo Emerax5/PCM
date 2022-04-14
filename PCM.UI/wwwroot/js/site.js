@@ -14,6 +14,9 @@ $(document).ready(function () {
 
     $('#money3').mask("000,000.00", { reverse: true });
 
+    $('#invoice').mask("00000000000", { reverse: true });
+
+
 
 });
 
