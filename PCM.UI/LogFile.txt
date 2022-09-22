@@ -3,3 +3,64 @@
 29/03/2022 4:36:14 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
 29/03/2022 4:36:15 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
 29/03/2022 4:36:16 PM| Connection error to the mongodb data base while looking for the User count. System Error: The connection string '' is not valid.
+25/04/2022 7:00:21 PM| Connection error to the mongodb data base while looking for the User count. System Error: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "Automatic", Type : "Unknown", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/localhost:27017" }", EndPoint: "Unspecified/localhost:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [::1]:27017
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__274_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.ConnectAsync(Socket socket, EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.CreateStreamAsync(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnectionAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.HeartbeatAsync(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2022-04-25T23:00:17.5367068Z", LastUpdateTimestamp: "2022-04-25T23:00:17.5367189Z" }] }.
+25/04/2022 7:02:28 PM| Connection error to the mongodb data base while looking for the User count. System Error: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "Automatic", Type : "Unknown", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/localhost:27017" }", EndPoint: "Unspecified/localhost:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [::1]:27017
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__274_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.ConnectAsync(Socket socket, EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.CreateStreamAsync(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnectionAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.HeartbeatAsync(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2022-04-25T23:02:26.2857200Z", LastUpdateTimestamp: "2022-04-25T23:02:26.2857336Z" }] }.
+25/04/2022 7:04:06 PM| Connection error to the mongodb data base while looking for the User count. System Error: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "Automatic", Type : "Unknown", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/localhost:27017" }", EndPoint: "Unspecified/localhost:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [::1]:27017
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__274_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.ConnectAsync(Socket socket, EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.CreateStreamAsync(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnectionAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.HeartbeatAsync(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2022-04-25T23:04:05.6313293Z", LastUpdateTimestamp: "2022-04-25T23:04:05.6313433Z" }] }.
+14/05/2022 2:08:49 PM| Connection error to the mongodb data base while looking for the User count. System Error: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "Automatic", Type : "Unknown", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/localhost:27017" }", EndPoint: "Unspecified/localhost:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [::1]:27017
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.<>c.<ConnectAsync>b__274_0(IAsyncResult iar)
+--- End of stack trace from previous location where exception was thrown ---
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.ConnectAsync(Socket socket, EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.TcpStreamFactory.CreateStreamAsync(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelperAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnectionAsync(CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.HeartbeatAsync(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2022-05-14T18:08:46.4335739Z", LastUpdateTimestamp: "2022-05-14T18:08:46.4335797Z" }] }.
+14/05/2022 2:46:18 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+14/05/2022 2:46:31 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+14/05/2022 2:46:32 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+14/05/2022 2:46:33 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+13/07/2022 5:17:55 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+13/07/2022 5:18:20 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+13/07/2022 5:19:03 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+13/07/2022 5:19:05 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
+13/07/2022 5:19:36 PM| Connection error to the mongodb data base while looking for the User count. System Error: Sequence contains no elements
